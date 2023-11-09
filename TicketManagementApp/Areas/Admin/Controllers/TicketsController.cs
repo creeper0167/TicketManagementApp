@@ -13,112 +13,117 @@ using TicketManagementApp.Repositories.Services;
 
 namespace TicketManagementApp.Areas.Admin.Controllers
 {
-    public class TicketGroupsController : Controller
+    public class TicketsController : Controller
     {
-        private ITicketGroupRepo ticketGroupRepository;
+        private ITicketRepo ticketRepository;
 
-        public TicketGroupsController()
+        public TicketsController()
         {
-            ticketGroupRepository = new TicketGroupService();
+            ticketRepository = new TicketService();
         }
-        // GET: Admin/TicketGroups
+        // GET: Admin/Tickets
         public ActionResult Index()
         {
-            return View(ticketGroupRepository.GetAllTicketGroups());
+            //var tickets = ticket.Tickets.Include(t => t.TicketGroup);
+            return View(ticketRepository.GetAllTickets());
         }
 
-        // GET: Admin/TicketGroups/Details/5
+        // GET: Admin/Tickets/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketGroup ticketGroup = ticketGroupRepository.GetTicketGroupById(id.Value);
-            if (ticketGroup == null)
+            Ticket ticket = db.Tickets.Find(id);
+            if (ticket == null)
             {
                 return HttpNotFound();
             }
-            return View(ticketGroup);
+            return View(ticket);
         }
 
-        // GET: Admin/TicketGroups/Create
+        // GET: Admin/Tickets/Create
         public ActionResult Create()
         {
+            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle");
             return View();
         }
 
-        // POST: Admin/TicketGroups/Create
+        // POST: Admin/Tickets/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TicketGroupID,TicketGroupTitle")] TicketGroup ticketGroup)
+        public ActionResult Create([Bind(Include = "TicketID,TicketGroupID,TicketSubject,TicketDescription")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
-                ticketGroupRepository.InsertTicketGroup(ticketGroup);
-                ticketGroupRepository.Save();
+                db.Tickets.Add(ticket);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(ticketGroup);
+            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
+            return View(ticket);
         }
 
-        // GET: Admin/TicketGroups/Edit/5
+        // GET: Admin/Tickets/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketGroup ticketGroup = ticketGroupRepository.GetTicketGroupById(id.Value);
-            if (ticketGroup == null)
+            Ticket ticket = db.Tickets.Find(id);
+            if (ticket == null)
             {
                 return HttpNotFound();
             }
-            return View(ticketGroup);
+            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
+            return View(ticket);
         }
 
-        // POST: Admin/TicketGroups/Edit/5
+        // POST: Admin/Tickets/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TicketGroupID,TicketGroupTitle")] TicketGroup ticketGroup)
+        public ActionResult Edit([Bind(Include = "TicketID,TicketGroupID,TicketSubject,TicketDescription")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
-                ticketGroupRepository.UpdateTicketGroup(ticketGroup);
-                ticketGroupRepository.Save();
+                db.Entry(ticket).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(ticketGroup);
+            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
+            return View(ticket);
         }
 
-        // GET: Admin/TicketGroups/Delete/5
+        // GET: Admin/Tickets/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TicketGroup ticketGroup = ticketGroupRepository.GetTicketGroupById(id.Value);
-            if (ticketGroup == null)
+            Ticket ticket = db.Tickets.Find(id);
+            if (ticket == null)
             {
                 return HttpNotFound();
             }
-            return View(ticketGroup);
+            return View(ticket);
         }
 
-        // POST: Admin/TicketGroups/Delete/5
+        // POST: Admin/Tickets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TicketGroup ticketGroup = ticketGroupRepository.GetTicketGroupById(id);
-            ticketGroupRepository.DeleteTicketGroup(ticketGroup);
-            ticketGroupRepository.Save();
+            Ticket ticket = db.Tickets.Find(id);
+            db.Tickets.Remove(ticket);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -126,7 +131,7 @@ namespace TicketManagementApp.Areas.Admin.Controllers
         {
             if (disposing)
             {
-                ticketGroupRepository.Dispose();
+                db.Dispose();
             }
             base.Dispose(disposing);
         }

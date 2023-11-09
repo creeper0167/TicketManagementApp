@@ -125,6 +125,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\TicketGroupsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TicketsController.cs" />
     <Compile Include="Context\TkContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -168,6 +169,11 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Areas\Admin\Views\Tickets\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Tickets\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Tickets\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Tickets\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Tickets\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
