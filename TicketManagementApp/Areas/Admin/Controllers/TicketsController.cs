@@ -35,7 +35,7 @@ namespace TicketManagementApp.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
+            Ticket ticket = ticketRepository.GetTicketById(id.Value);
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace TicketManagementApp.Areas.Admin.Controllers
         // GET: Admin/Tickets/Create
         public ActionResult Create()
         {
-            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle");
+            ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
             return View();
         }
 
@@ -59,12 +59,12 @@ namespace TicketManagementApp.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Tickets.Add(ticket);
-                db.SaveChanges();
+                ticketRepository.InsertTicket(ticket);
+                ticketRepository.Save();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
+            ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
             return View(ticket);
         }
 
@@ -75,12 +75,12 @@ namespace TicketManagementApp.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
+            Ticket ticket = ticketRepository.GetTicketById(id.Value);
             if (ticket == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
+            ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
             return View(ticket);
         }
 
@@ -93,11 +93,11 @@ namespace TicketManagementApp.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(ticket).State = EntityState.Modified;
-                db.SaveChanges();
+                ticketRepository.UpdateTicket(ticket);
+                ticketRepository.Save();
                 return RedirectToAction("Index");
             }
-            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
+            ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
             return View(ticket);
         }
 
@@ -108,7 +108,7 @@ namespace TicketManagementApp.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
+            Ticket ticket = ticketRepository.GetTicketById(id.Value);
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -121,9 +121,9 @@ namespace TicketManagementApp.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Ticket ticket = db.Tickets.Find(id);
-            db.Tickets.Remove(ticket);
-            db.SaveChanges();
+            Ticket ticket = ticketRepository.GetTicketById(id);
+            ticketRepository.DeleteTicket(ticket);
+            ticketRepository.Save();
             return RedirectToAction("Index");
         }
 
@@ -131,7 +131,7 @@ namespace TicketManagementApp.Areas.Admin.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                ticketRepository.Dispose();
             }
             base.Dispose(disposing);
         }

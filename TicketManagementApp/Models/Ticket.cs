@@ -14,7 +14,10 @@ namespace TicketManagementApp.Models
         public int TicketGroupID { get; set; }
         [Display(Name ="موضوع تیکت")]
         public string TicketSubject { get; set; }
+        [Display(Name ="شرح تیکت")]
         public string TicketDescription { get; set; }
+        [Display(Name ="ضمیمه")]
+        public string TicketAttachment {  get; set; }
 
         public Ticket()
         {

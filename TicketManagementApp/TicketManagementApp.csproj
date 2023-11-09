@@ -134,6 +134,10 @@
     <Compile Include="Migrations\202311090824255_init.designer.cs">
       <DependentUpon>202311090824255_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202311091008477_init1.cs" />
+    <Compile Include="Migrations\202311091008477_init1.designer.cs">
+      <DependentUpon>202311091008477_init1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TicketGroup.cs" />
@@ -196,6 +200,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202311090824255_init.resx">
       <DependentUpon>202311090824255_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311091008477_init1.resx">
+      <DependentUpon>202311091008477_init1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
