@@ -1,0 +1,112 @@
+﻿@model IEnumerable<TicketManagementApp.Models.Ticket>
+@using TicketManagementApp.Models;
+@using System.Globalization;
+@{
+    Layout = null;
+    PersianCalendar persianCalendar = new PersianCalendar();
+}
+
+<!DOCTYPE html>
+
+<html dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css"/>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="container-fluid bg-light">
+        <h1 class="text-center text-danger">لیست تیکت ها</h1>
+        <div class="row flex-nowrap">
+        <div class="bg-dark col-auto col-md-2 min-vh-100">
+            <div class="bg-dark p-2">
+                <a href="#" class="d-flex text-decoration-none mt-1 align-items-center text-white">
+                    <span class="fs-4 d-none d-sm-inline">پنل مدیریت</span>
+                </a>
+                <ul dir="rtl" class="nav nav-pills flex-column mt-4">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white">
+                            <i class="fs-5 fa fa-house"></i><span class="fs-4 ms-3 d-none d-sm-inline">مشاهده تیکت ها</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white">
+                            <i class="fs-5 fa fa-house"></i><span class="fs-4 ms-3 d-none d-sm-inline">سیستم چت</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white">
+                            <i class="fs-5 fa fa-house"></i><span class="fs-4 ms-3 d-none d-sm-inline">خروج از سیستم</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <table class="col table ">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TicketSubject)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TicketDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TicketAttachment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TicketStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TicketDate)
+                </th>
+                <th>عملیات</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketGroup.TicketGroupTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketSubject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketDescription)
+                    </td>
+                    <td>
+                        <a href="~/TicketAttachments/@item.TicketAttachment">@Html.DisplayFor(modelItem => item.TicketAttachment)</a>
+                    </td>
+                    <td>
+
+                                @Html.DisplayFor(modelItem => item.TicketStatus)
+                            </td>
+
+
+                            <td>
+                        @{
+                                    string date = persianCalendar.GetYear(item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(item.TicketDate).ToString();
+                                }
+                                @date
+                        @*@Html.DisplayFor(modelItem => item.TicketDate)*@
+                    </td>
+                    <td>
+                        @Html.ActionLink("پاسخ", "Edit", new { id = item.TicketID }) |
+                        @Html.ActionLink("مشاهده", "Details", new { id = item.TicketID }) @*|*@
+                        @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    </div>
+</body>
+</html>

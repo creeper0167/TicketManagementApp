@@ -15,14 +15,22 @@ namespace TicketManagementApp.Models
         [Display(Name ="موضوع تیکت")]
         public string TicketSubject { get; set; }
         [Display(Name ="شرح تیکت")]
+        [DataType(DataType.MultilineText)]
         public string TicketDescription { get; set; }
         [Display(Name ="ضمیمه")]
+        [DataType(DataType.Upload)]
         public string TicketAttachment {  get; set; }
+        
+        [Display(Name ="وضعیت تیکت")]
+        public string TicketStatus { get; set; }
+        [Display(Name ="تاریخ ایجاد تیکت")]
+        public DateTime TicketDate { get; set; }
 
         public Ticket()
         {
             
         }
         public virtual TicketGroup TicketGroup { get; set; }
+        public virtual List<TicketReply> TicketReply { get; set; }
     }
 }
