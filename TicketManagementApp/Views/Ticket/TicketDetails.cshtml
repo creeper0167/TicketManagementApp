@@ -1,6 +1,7 @@
 ﻿@model TicketManagementApp.Models.Ticket
 
 @{
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
     ViewBag.Title = "TicketDetails";
 }
 
@@ -81,7 +82,7 @@
     </div>
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to List", "TicketView")
     </p>
 </body>
 </html>

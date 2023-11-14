@@ -45,7 +45,7 @@ namespace TicketManagementApp.Controllers
             if (ModelState.IsValid)
             {
 
-                ticket.TicketStatus = TicketStatusEnum.UNREAD.ToString();
+                ticket.TicketStatus = "در انتظار بررسی";
                 ticket.TicketDate = DateTime.Now;
                 ticket.AccountID = 1;
                 
@@ -70,7 +70,7 @@ namespace TicketManagementApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = _ticketRepo.GetTicketById(id.Value);
-            ticket.TicketStatus = TicketStatusEnum.READ.ToString();
+            ticket.TicketStatus = "در حال بررسی";
             _ticketRepo.UpdateTicket(ticket);
             _ticketRepo.Save();
             if (ticket == null)
