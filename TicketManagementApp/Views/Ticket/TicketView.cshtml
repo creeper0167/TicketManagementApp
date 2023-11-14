@@ -21,33 +21,12 @@
 <body>
     <div class="container-fluid bg-light">
         <h1 class="text-center text-danger">لیست تیکت ها</h1>
-        <div class="row flex-nowrap">
-        <div class="bg-dark col-auto col-md-2 min-vh-100">
-            <div class="bg-dark p-2">
-                <a href="#" class="d-flex text-decoration-none mt-1 align-items-center text-white">
-                    <span class="fs-4 d-none d-sm-inline">پنل مدیریت</span>
-                </a>
-                <ul dir="rtl" class="nav nav-pills flex-column mt-4">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link text-white">
-                            <i class="fs-5 fa fa-house"></i><span class="fs-4 ms-3 d-none d-sm-inline">مشاهده تیکت ها</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link text-white">
-                            <i class="fs-5 fa fa-house"></i><span class="fs-4 ms-3 d-none d-sm-inline">سیستم چت</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link text-white">
-                            <i class="fs-5 fa fa-house"></i><span class="fs-4 ms-3 d-none d-sm-inline">خروج از سیستم</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <table class="col table ">
+
+        <table class="table">
             <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TicketID)
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
                 </th>
@@ -66,12 +45,18 @@
                 <th>
                     @Html.DisplayNameFor(model => model.TicketDate)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Account.UserGroup)
+                </th>
                 <th>عملیات</th>
             </tr>
 
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketID)
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TicketGroup.TicketGroupTitle)
                     </td>
@@ -86,24 +71,27 @@
                     </td>
                     <td>
 
-                                @Html.DisplayFor(modelItem => item.TicketStatus)
-                            </td>
+                        @Html.DisplayFor(modelItem => item.TicketStatus)
+                    </td>
 
 
-                            <td>
+                    <td>
                         @{
-                                    string date = persianCalendar.GetYear(item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(item.TicketDate).ToString();
-                                }
-                                @date
+                            string date = persianCalendar.GetYear(item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(item.TicketDate).ToString();
+                        }
+                        @date
                         @*@Html.DisplayFor(modelItem => item.TicketDate)*@
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.Account.UserGroup)
+                    </td>
+                    <td>
                         @Html.ActionLink("پاسخ", "Edit", new { id = item.TicketID }) |
-                        @Html.ActionLink("مشاهده", "Details", new { id = item.TicketID }) @*|*@
+                        @Html.ActionLink("TicketDetails", "TicketDetails", new { id = item.TicketID }) @*|*@
                         @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
                     </td>
                 </tr>
-            }
+                            }
 
         </table>
     </div>

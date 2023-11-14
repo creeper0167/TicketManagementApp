@@ -18,6 +18,6 @@ namespace TicketManagementApp.Models
             
         }
 
-        public virtual List<TicketGroup> TicketGroups { get; set; }
+        public virtual List<Ticket> Tickets { get; set; }
     }
 }

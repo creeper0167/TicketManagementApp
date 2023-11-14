@@ -1,0 +1,87 @@
+﻿@model TicketManagementApp.Models.Ticket
+
+@{
+    ViewBag.Title = "TicketDetails";
+}
+
+<!DOCTYPE html>
+
+<html dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div>
+        <h4>Ticket</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Account.Username)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Account.Username)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketGroup.TicketGroupTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketSubject)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketSubject)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketDescription)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketAttachment)
+            </dt>
+
+            <dd>
+                <a href="~/TicketAttachments/@Model.TicketAttachment">@Html.DisplayFor(model => model.TicketAttachment)</a>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketStatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketStatus)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketDate)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

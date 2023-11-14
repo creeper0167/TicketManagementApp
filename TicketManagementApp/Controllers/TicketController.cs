@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TicketManagementApp.Context;
@@ -25,6 +26,8 @@ namespace TicketManagementApp.Controllers
         public ActionResult Index()
         {
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
+            ViewBag.UserGroupID = new SelectList(new UserGroupService().GetAllUserGroups(), "UserGroupID", "UserGroupTitle");
+
             return View();
         }
         public ActionResult TicketView()
@@ -44,6 +47,7 @@ namespace TicketManagementApp.Controllers
 
                 ticket.TicketStatus = TicketStatusEnum.UNREAD.ToString();
                 ticket.TicketDate = DateTime.Now;
+                ticket.AccountID = 1;
                 
                 if(TicketAttachmentUpload != null)
                 {
@@ -57,6 +61,21 @@ namespace TicketManagementApp.Controllers
             }
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
             return View();
+        }
+
+        public ActionResult TicketDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Ticket ticket = _ticketRepo.GetTicketById(id.Value);
+            ticket.TicketStatus = TicketStatusEnum.READ.ToString();
+            _ticketRepo.UpdateTicket(ticket);
+            _ticketRepo.Save();
+            if (ticket == null)
+                return HttpNotFound();
+            return View(ticket);
         }
     }
 }

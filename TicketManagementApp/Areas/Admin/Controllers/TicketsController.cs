@@ -16,10 +16,12 @@ namespace TicketManagementApp.Areas.Admin.Controllers
     public class TicketsController : Controller
     {
         private ITicketRepo ticketRepository;
+        private IAccountRepo accountRepository;
 
         public TicketsController()
         {
             ticketRepository = new TicketService();
+            accountRepository = new AccountService();
         }
         // GET: Admin/Tickets
         public ActionResult Index()
@@ -36,6 +38,8 @@ namespace TicketManagementApp.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = ticketRepository.GetTicketById(id.Value);
+            //ticket.TicketStatus = TicketStatusEnum.READ.ToString();
+            
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -47,6 +51,8 @@ namespace TicketManagementApp.Areas.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
+            ViewBag.UserGroupID = new SelectList(new UserGroupService().GetAllUserGroups(), "UserGroupID", "UserGroupTitle");
+
             return View();
         }
 

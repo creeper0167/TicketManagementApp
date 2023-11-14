@@ -12,6 +12,8 @@ namespace TicketManagementApp.Models
         public int TicketID { get; set; }
         [Display(Name ="عنوان گروه")]
         public int TicketGroupID { get; set; }
+        [Display(Name = "کاربر")]
+        public int AccountID { get; set; }
         [Display(Name ="موضوع تیکت")]
         public string TicketSubject { get; set; }
         [Display(Name ="شرح تیکت")]
@@ -31,6 +33,7 @@ namespace TicketManagementApp.Models
             
         }
         public virtual TicketGroup TicketGroup { get; set; }
+        public virtual Accounts Account { get; set; }
         public virtual List<TicketReply> TicketReply { get; set; }
     }
 }
