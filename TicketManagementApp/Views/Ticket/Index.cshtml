@@ -1,7 +1,8 @@
 ﻿@model TicketManagementApp.Models.Ticket
 
 @{
-    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    Layout = "~/Views/Shared/_DefPage1.cshtml";
     ViewBag.Title = "Create";
 }
 
@@ -49,7 +50,7 @@
         @*<script src="~/Scripts/modernizr-2.6.2.js"></script>*@
     <!--</head>-->
 <body>
-    <div class="container-fluid bg-light min-vh-100">
+    @*<div class="container-fluid bg-light min-vh-100">*@
         <div class="d-flex justify-content-center ">
             @using (Html.BeginForm("Index", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
@@ -113,10 +114,8 @@
             </div>
             }
 
-            <div>
-                @Html.ActionLink("Back to List", "TicketView")
-            </div>
+
         </div>
-    </div>
+    @*</div>*@
 </body>
 </html>

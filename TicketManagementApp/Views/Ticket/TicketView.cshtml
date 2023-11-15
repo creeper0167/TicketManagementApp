@@ -2,25 +2,26 @@
 @using TicketManagementApp.Models;
 @using System.Globalization;
 @{
-    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    Layout = "~/Views/Shared/_DefPage1.cshtml";
     PersianCalendar persianCalendar = new PersianCalendar();
 }
 
 @*<!DOCTYPE html>*@
 
-<!--<html>
-<head>-->
-    @*<meta charset="utf-8" />
+@*<html>
+<head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/style.css" rel="stylesheet" type="text/css"/>
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>*@
-<!--</head>-->
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>*@
 <body>
-    <div class="bg-dark min-vh-100">
-        <h1 class="text-center text-danger">لیست تیکت ها</h1>
+    <div class="min-vh-100">
+        <h1 class="text-center text-primary">لیست تیکت ها</h1>
 
         <table class="table">
             <tr>
@@ -70,7 +71,6 @@
                         <a href="~/TicketAttachments/@item.TicketAttachment">@Html.DisplayFor(modelItem => item.TicketAttachment)</a>
                     </td>
                     <td>
-
                         @Html.DisplayFor(modelItem => item.TicketStatus)
                     </td>
 
@@ -86,8 +86,8 @@
                         @Html.DisplayFor(modelItem => item.Account.UserGroup)
                     </td>*@
                     <td>
-                        @Html.ActionLink("پاسخ", "Edit", new { id = item.TicketID }) |
-                        @Html.ActionLink("TicketDetails", "TicketDetails", new { id = item.TicketID }) @*|*@
+                        @Html.ActionLink("پاسخ", "TicketReply", new { id = item.TicketID }) |
+                        @Html.ActionLink("جزئیات", "TicketDetails", new { id = item.TicketID }, htmlAttributes: new {@class="text-info"}) @*|*@
                         @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
                     </td>
                 </tr>
@@ -95,6 +95,5 @@
 
         </table>
     </div>
-    </div>
 </body>
-</html>
+

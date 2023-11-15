@@ -15,12 +15,14 @@ namespace TicketManagementApp.Controllers
     public class TicketController : Controller
     {
         private TkContext _tkContext;
+        private ITicketReplyRepo _ticketReplyRepo;
         private ITicketRepo _ticketRepo;
 
         public TicketController()
         {
             _tkContext = new TkContext();
             _ticketRepo = new TicketService();
+            _ticketReplyRepo = new TicketReplyService();
         }
         // GET: Ticket
         public ActionResult Index()
@@ -47,7 +49,7 @@ namespace TicketManagementApp.Controllers
 
                 ticket.TicketStatus = "در انتظار بررسی";
                 ticket.TicketDate = DateTime.Now;
-                ticket.AccountID = 3;
+                ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
                 
                 if(TicketAttachmentUpload != null)
                 {
@@ -62,7 +64,31 @@ namespace TicketManagementApp.Controllers
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
             return View();
         }
-
+        public ActionResult TicketReply(int? id)
+        {
+            if(id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            Ticket ticket = _tkContext.Tickets.Find(id);
+            return View(ticket);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TicketReply([Bind]Ticket ticket, string replyText)
+        {
+            Ticket ticket1 = _tkContext.Tickets.Find(ticket.TicketID);
+            if (ModelState.IsValid)
+            {
+                TicketReply reply = new TicketReply();
+                reply.TicketId = ticket.TicketID;
+                reply.Text = replyText;
+                _ticketReplyRepo.InsertTicketReply(reply);
+                _ticketReplyRepo.Save();
+                ticket1.TicketReply.Add(reply);
+                _ticketRepo.UpdateTicket(ticket1);
+                _ticketRepo.Save();
+            }
+            return View(ticket1);
+        }
         public ActionResult TicketDetails(int? id)
         {
             if (id == null)
@@ -76,6 +102,20 @@ namespace TicketManagementApp.Controllers
             if (ticket == null)
                 return HttpNotFound();
             return View(ticket);
+        }
+
+        public ActionResult CloseTicket(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Ticket ticket = _ticketRepo.GetTicketById(id.Value);
+            ticket.TicketStatus = "بسته شده";
+            _ticketRepo.UpdateTicket(ticket);
+            _ticketRepo.Save();
+            return RedirectToAction("TicketView");
+
         }
     }
 }

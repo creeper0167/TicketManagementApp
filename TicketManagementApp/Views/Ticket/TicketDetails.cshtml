@@ -1,22 +1,25 @@
 ﻿@model TicketManagementApp.Models.Ticket
+@using System.Globalization;
 
 @{
-    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    Layout = "~/Views/Shared/_DefPage1.cshtml";
+    PersianCalendar persianCalendar = new PersianCalendar();
     ViewBag.Title = "TicketDetails";
 }
 
 @*<!DOCTYPE html>
 
-<html dir="rtl">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-</head>*@
+    <html dir="rtl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    </head>*@
 <body>
     <div>
         <h4>اطلاعات تیکت</h4>
@@ -75,14 +78,27 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.TicketDate)
+                @{
+                    string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
+                }
+                @date
+                @*@Html.DisplayFor(model => model.TicketDate)*@
             </dd>
-
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketReply)
+            </dt>
+            @foreach (var item in Model.TicketReply)
+            {
+                <dd class="text-dark">
+                    @Html.DisplayFor(model => item.Text)
+                </dd>
+            }
         </dl>
     </div>
+    <hr />
     <p>
         @*@Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |*@
-        @Html.ActionLink("Back to List", "TicketView")
+        @Html.ActionLink("بازگشت", "TicketView", "", htmlAttributes: new { @class = "btn btn-danger" })
+        @Html.ActionLink("بستن تیکت","CloseTicket", new {id=Model.TicketID}, htmlAttributes: new {@class="btn btn-danger"})
     </p>
 </body>
-</html>

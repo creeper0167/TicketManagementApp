@@ -10,7 +10,7 @@ namespace TicketManagementApp.Models
     {
         [Key]
         public int TicketGroupID { get; set; }
-        [Display(Name = "عنوان گروه")]
+        [Display(Name = "نوع تیکت")]
         public string TicketGroupTitle { get; set; }
 
         public TicketGroup()

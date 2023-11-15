@@ -1,0 +1,138 @@
+﻿@model TicketManagementApp.Models.Ticket
+
+@{
+    ViewBag.Title = "TicketReply";
+    Layout = "~/Views/Shared/_DefPage1.cshtml";
+}
+
+<body>
+    <div>
+        <h4 class="text-center">اطلاعات تیکت</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                ایجاد کننده تیکت
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Account.FullName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketGroup.TicketGroupTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketSubject)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketSubject)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketDescription)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketAttachment)
+            </dt>
+
+            <dd>
+                <a href="~/TicketAttachments/@Model.TicketAttachment">@Html.DisplayFor(model => model.TicketAttachment)</a>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketStatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketStatus)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TicketDate)
+            </dd>
+
+        </dl>
+
+
+        @* reply box *@
+        <div class="container-fluid">
+            <div>
+                @using (Html.BeginForm("TicketReply", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                <div class="form-horizontal bg-warning p-4">
+                    <h4>پاسخ به تیکت</h4>
+                    <hr />
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div hidden="true" class="form-group m-3">
+                        @Html.LabelFor(model => model.TicketID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.TicketID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.TicketID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div  class="form-group m-3">
+                        @Html.LabelFor(model => model.TicketSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.TicketSubject, new { htmlAttributes = new { @class = "form-control",@disabled= "disabled" } })
+                            @Html.ValidationMessageFor(model => model.TicketSubject, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group m-3">
+                        @Html.LabelFor(model => model.TicketDescription, htmlAttributes: new { @class = "control-label col-md-3 " })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.TicketDescription, new { htmlAttributes = new { @class = "form-control" , @disabled = "disabled" } })
+                            @Html.ValidationMessageFor(model => model.TicketDescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">پاسخ به تیکت</label>
+                        @*@Html.LabelFor(model => model.TicketReply, htmlAttributes: new { @class = "control-label col-md-3 " })*@
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" name="replyText" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <input class="btn btn-success" type="submit" value="پاسخ به تیکت" />
+                        @*@Html.ActionLink("پاسخ", "TicketReplyPost", new {id = Model.TicketID}, htmlAttributes: new { @class = "btn btn-success text-white" , @type="submit"})*@
+                        @Html.ActionLink("بازگشت", "TicketView", "TicketView", htmlAttributes: new { @class = "btn btn-danger text-white" })
+
+                    </div>
+
+                    <div class="form-group">
+
+
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        @* end of reply box *@
+    </div>
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |*@
+        @*@Html.ActionLink("بازگشت", "TicketView", "", htmlAttributes: new {@class="btn btn-danger"})*@
+    </p>
+</body>
+
+

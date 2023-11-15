@@ -2,7 +2,8 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    Layout = "~/Views/Shared/_DefPage1.cshtml";
     int accountID = Int32.Parse(Session["AccountID"].ToString());
 }
 
@@ -61,10 +62,16 @@
             @Html.DisplayFor(modelItem => item.TicketDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TicketID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TicketID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TicketID })
+        <td>
+            @*@Html.ActionLink("پاسخ", "TicketReply", new { id = item.TicketID }) |*@
+            @Html.ActionLink("جزئیات", "Details", new { id = item.TicketID }, htmlAttributes: new { @class = "text-info" }) @*|*@
+            @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
         </td>
+        @*@Html.ActionLink("Edit", "Edit", new { id=item.TicketID }) |
+        @Html.ActionLink("Details", "Details", new { id=item.TicketID }) |
+        @Html.ActionLink("Delete", "Delete", new { id=item.TicketID })*@
+        </td>
+        
     </tr>
 }
 
