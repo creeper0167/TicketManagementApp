@@ -1,0 +1,75 @@
+﻿@model TicketManagementApp.Models.Ticket
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ticket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Account.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketGroup.TicketGroupTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketSubject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketSubject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketAttachment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketAttachment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

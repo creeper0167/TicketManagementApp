@@ -5,7 +5,7 @@
     ViewBag.Title = "TicketDetails";
 }
 
-<!DOCTYPE html>
+@*<!DOCTYPE html>
 
 <html dir="rtl">
 <head>
@@ -16,18 +16,18 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
-</head>
+</head>*@
 <body>
     <div>
-        <h4>Ticket</h4>
+        <h4>اطلاعات تیکت</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Account.Username)
+                ایجاد کننده تیکت
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Account.Username)
+                @Html.DisplayFor(model => model.Account.FullName)
             </dd>
 
             <dt>
@@ -81,7 +81,7 @@
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |*@
         @Html.ActionLink("Back to List", "TicketView")
     </p>
 </body>

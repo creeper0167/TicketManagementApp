@@ -14,5 +14,6 @@ namespace TicketManagementApp.Context
         public DbSet<TicketReply> TicketReplys { get; set;}
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<Accounts> Accounts { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }

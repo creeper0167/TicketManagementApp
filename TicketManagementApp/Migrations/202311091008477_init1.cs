@@ -17,10 +17,24 @@
                         UserGroupID = c.Int(nullable: false),
                         Username = c.String(nullable: false),
                         Password = c.String(nullable: false),
+                        FullName = c.String(),
+                        Role_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.AccountID)
+                .ForeignKey("dbo.Roles", t => t.Role_Id)
                 .ForeignKey("dbo.UserGroups", t => t.UserGroupID, cascadeDelete: true)
-                .Index(t => t.UserGroupID);
+                .Index(t => t.UserGroupID)
+                .Index(t => t.Role_Id);
+            
+            CreateTable(
+                "dbo.Roles",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        RoleId = c.Int(nullable: false),
+                        RoleName = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.TicketReplies",
@@ -62,9 +76,11 @@
             DropForeignKey("dbo.Accounts", "UserGroupID", "dbo.UserGroups");
             DropForeignKey("dbo.TicketReplies", "TicketId", "dbo.Tickets");
             DropForeignKey("dbo.Tickets", "AccountID", "dbo.Accounts");
+            DropForeignKey("dbo.Accounts", "Role_Id", "dbo.Roles");
             DropIndex("dbo.TicketReplies", new[] { "TicketId" });
             DropIndex("dbo.Tickets", new[] { "UserGroup_UserGroupID" });
             DropIndex("dbo.Tickets", new[] { "AccountID" });
+            DropIndex("dbo.Accounts", new[] { "Role_Id" });
             DropIndex("dbo.Accounts", new[] { "UserGroupID" });
             DropColumn("dbo.Tickets", "UserGroup_UserGroupID");
             DropColumn("dbo.Tickets", "TicketDate");
@@ -73,6 +89,7 @@
             DropColumn("dbo.Tickets", "AccountID");
             DropTable("dbo.UserGroups");
             DropTable("dbo.TicketReplies");
+            DropTable("dbo.Roles");
             DropTable("dbo.Accounts");
             CreateIndex("dbo.TicketGroups", "TicketGroup_TicketGroupID");
             AddForeignKey("dbo.TicketGroups", "TicketGroup_TicketGroupID", "dbo.TicketGroups", "TicketGroupID");

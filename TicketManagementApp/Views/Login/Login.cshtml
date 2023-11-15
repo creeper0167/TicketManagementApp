@@ -38,7 +38,8 @@
 
                         <!-- enter email-->
                         <div class="wrap-input100 validate-input" @*data-validate="لطفا پست الکترونیک خود را وارد کنید!"*@>
-                            @Html.TextBoxFor(item => item.Username, htmlAttributes: new { @class = "input100", @placeholder="نام کاربری" })
+                            @Html.TextBoxFor(item => item.Username, htmlAttributes: new { @class = "input100", @placeholder = "نام کاربری" })
+                            @Html.ValidationMessageFor(u=>u.Username)
                             @*<input class="input100" type="text" name="email" placeholder="نام کاربری">*@
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
@@ -48,7 +49,8 @@
                         <!-- / enter email -->
                         <!-- enter password-->
                         <div class="wrap-input100 validate-input" data-validate="لطفا رمز عبور را وارد کنید!">
-                            @Html.TextBoxFor(item => item.Password, htmlAttributes: new { @class = "input100", @placeholder = "رمز عبور" })
+                            @Html.TextBoxFor(item => item.Password, htmlAttributes: new { @class = "input100", @placeholder = "رمز عبور" , @type="password"})
+                            @Html.ValidationMessageFor(u=>u.Password)
                             @*<input class="input100" type="password" name="pass" placeholder="رمز عبور">*@
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">

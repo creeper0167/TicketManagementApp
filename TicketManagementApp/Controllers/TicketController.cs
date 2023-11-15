@@ -47,7 +47,7 @@ namespace TicketManagementApp.Controllers
 
                 ticket.TicketStatus = "در انتظار بررسی";
                 ticket.TicketDate = DateTime.Now;
-                ticket.AccountID = 1;
+                ticket.AccountID = 3;
                 
                 if(TicketAttachmentUpload != null)
                 {

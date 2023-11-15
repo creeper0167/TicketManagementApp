@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using TicketManagementApp.Context;
 using TicketManagementApp.Models;
 
@@ -32,6 +33,9 @@ namespace TicketManagementApp.Controllers
                     {
                         Session["AccountID"] = obj.AccountID.ToString();
                         Session["Username"] = obj.Username.ToString();
+                        Session["FullName"] = obj.FullName.ToString();
+                    Session["RoleID"] = obj.Role.RoleId.ToString();
+                        //FormsAuthentication.Authenticate()
                         return RedirectToAction("UserDashBoard");
                     }
             }
@@ -40,7 +44,16 @@ namespace TicketManagementApp.Controllers
 
         public ActionResult UserDashBoard()
         {
-            return View("~/Views/Ticket/TicketView.cshtml");
+            int roldId = Int32.Parse(Session["RoleID"].ToString());
+            if (Session["Username"] != null)
+            {
+                if (roldId == 1)
+                    return RedirectToAction("TicketView", "Ticket");
+                else
+                    return RedirectToAction("Index", "User");
+            }
+            ModelState.AddModelError("", "Login details are wrong.");
+            return View("Login");
         }
 
     }

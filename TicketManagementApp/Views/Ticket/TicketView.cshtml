@@ -6,10 +6,10 @@
     PersianCalendar persianCalendar = new PersianCalendar();
 }
 
-<!DOCTYPE html>
+@*<!DOCTYPE html>*@
 
-<html dir="rtl">
-<head>
+<!--<html>
+<head>-->
     @*<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
@@ -17,9 +17,9 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/style.css" rel="stylesheet" type="text/css"/>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>*@
-</head>
+<!--</head>-->
 <body>
-    <div class="container-fluid bg-light">
+    <div class="bg-dark min-vh-100">
         <h1 class="text-center text-danger">لیست تیکت ها</h1>
 
         <table class="table">
@@ -45,9 +45,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.TicketDate)
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.Account.UserGroup)
-                </th>
+                </th>*@
                 <th>عملیات</th>
             </tr>
 
@@ -82,16 +82,16 @@
                         @date
                         @*@Html.DisplayFor(modelItem => item.TicketDate)*@
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Account.UserGroup)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.ActionLink("پاسخ", "Edit", new { id = item.TicketID }) |
                         @Html.ActionLink("TicketDetails", "TicketDetails", new { id = item.TicketID }) @*|*@
                         @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
                     </td>
                 </tr>
-                            }
+             }
 
         </table>
     </div>

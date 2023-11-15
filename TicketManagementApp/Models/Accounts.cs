@@ -19,6 +19,9 @@ namespace TicketManagementApp.Models
         [Display(Name ="رمز عبور")]
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
         public string Password { get; set; }
+        [Display(Name ="نام")]
+        //[Required(ErrorMessage ="لطفا {0} را وارد کنید")]
+        public string FullName { get; set; }
 
         public Accounts()
         {
@@ -27,5 +30,6 @@ namespace TicketManagementApp.Models
 
         public virtual UserGroup UserGroup { get; set; }
         public virtual List<Ticket> Ticket { get; set; }
+        public virtual Role Role { get; set; }
     }
 }
