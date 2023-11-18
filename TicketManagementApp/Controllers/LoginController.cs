@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 using TicketManagementApp.Context;
@@ -26,6 +27,7 @@ namespace TicketManagementApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(Accounts objUser)
         {
+            var result = new {isValid = true};
             if (ModelState.IsValid)
             {
                     var obj = _tkContext.Accounts.Where(a => a.Username.Equals(objUser.Username) && a.Password.Equals(objUser.Password)).FirstOrDefault();
@@ -34,10 +36,12 @@ namespace TicketManagementApp.Controllers
                         Session["AccountID"] = obj.AccountID.ToString();
                         Session["Username"] = obj.Username.ToString();
                         Session["FullName"] = obj.FullName.ToString();
-                    Session["RoleID"] = obj.Role.RoleId.ToString();
-                    Session["RoleName"] = obj.Role.RoleName.ToString();
-                    //FormsAuthentication.Authenticate()
-                    return RedirectToAction("UserDashBoard");
+                        Session["RoleID"] = obj.Role.RoleId.ToString();
+                        Session["RoleName"] = obj.Role.RoleName.ToString();
+                        //FormsAuthentication.Authenticate()
+                        
+                        return RedirectToAction("UserDashBoard");
+                    //return View(result);
                     }
             }
             return View(objUser);

@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -44,6 +47,7 @@ namespace TicketManagementApp.Controllers
         {
             ViewBag.AccountID = new SelectList(db.Accounts, "AccountID", "Username");
             ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle");
+            ViewBag.UserGroupID = new SelectList(db.UserGroups, "UserGroupID", "UserGroupTitle");
             return View();
         }
 
@@ -52,10 +56,23 @@ namespace TicketManagementApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TicketID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate")] Ticket ticket)
+        public async Task<ActionResult> Create([Bind(Include = "TicketID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload)
         {
+            var result = new {isValid = true};
+            var notValidResult = new { isValid = false };
             if (ModelState.IsValid)
             {
+
+                ticket.TicketStatus = "در انتظار بررسی";
+                ticket.TicketDate = DateTime.Now;
+                ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
+
+                if (TicketAttachmentUpload != null)
+                {
+                    ticket.TicketAttachment = Guid.NewGuid() + Path.GetExtension(TicketAttachmentUpload.FileName);
+                    TicketAttachmentUpload.SaveAs(Server.MapPath("/TicketAttachments/" + ticket.TicketAttachment));
+                }
+
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -63,7 +80,9 @@ namespace TicketManagementApp.Controllers
 
             ViewBag.AccountID = new SelectList(db.Accounts, "AccountID", "Username", ticket.AccountID);
             ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
-            return View(ticket);
+            ViewBag.UserGroupID = new SelectList(db.UserGroups, "UserGroupID", "UserGroupTitle");
+            //return View(ticket);
+            return Json(notValidResult);
         }
 
         // GET: User/Edit/5

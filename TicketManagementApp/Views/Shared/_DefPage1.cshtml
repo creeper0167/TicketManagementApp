@@ -53,7 +53,8 @@
 </head>
 <body class="hold-transition sidebar-mini">
     @*<a class="whats-app" href="https://wa.me/+989355146278" target="_blank">*@
-        <a class="whats-app" target="_blank" href="https://web.whatsapp.com/send/?phone=%2B989355146278&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp" style="font-size:48px;color:green"></i>
+    <a class="whats-app" target="_blank" href="https://web.whatsapp.com/send/?phone=%2B989355146278&text&type=phone_number&app_absent=0">
+        <i class="fa fa-whatsapp" style="font-size:48px;color:green"></i>
     </a>
     <div class="wrapper">
 
@@ -205,13 +206,13 @@
                             *@
                             <li class="nav-item">
 
-                                @Html.ActionLink("مشاهده تیکت‌ها", "UserDashBoard", "Login", htmlAttributes: new { @class = "nav-link active" })
-                                @*<a href="~/Ticket/Index" class="nav-link">
-                                        <i class="nav-icon fa fa-th"></i>
+                                @*@Html.ActionLink("مشاهده تیکت‌ها", "UserDashBoard", "Login", htmlAttributes: new { @class = "nav-link active" })*@
+                                <a href="~/Ticket/TicketView" class="nav-link">
+                                        @*<i class="nav-icon fa fa-th"></i>*@
                                         <p>
                                             مشاهده تیکت‌ها
                                         </p>
-                                    </a>*@
+                                    </a>
                             </li>
                             <li class="nav-item">
                                 <a href="~/Ticket/Index" class="nav-link">
@@ -222,6 +223,7 @@
                                     </p>
                                 </a>
                             </li>
+
                             <li class="nav-item">
                                 @Html.ActionLink("خروج از سیستم", "LogOut", "User")
 
@@ -821,6 +823,8 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @RenderSection("Scripts", required: false)
     <!-- ./wrapper -->
     <!-- jQuery -->
     <script src="~/Content/rtl-temp/plugins/jquery/jquery.min.js"></script>
@@ -859,5 +863,6 @@
     <script src="~/Content/rtl-temp/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/Content/rtl-temp/dist/js/demo.js"></script>
+    @RenderSection("s",required:false);
 </body>
 </html>

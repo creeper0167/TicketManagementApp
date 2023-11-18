@@ -3,15 +3,15 @@
 @{
     ViewBag.Title = "Index";
     //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
-    Layout = "~/Views/Shared/_DefPage1.cshtml";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
     int accountID = Int32.Parse(Session["AccountID"].ToString());
 }
 
-<h2>Index</h2>
+@*<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>*@
 <table class="table">
     <tr>
         <th>
@@ -38,7 +38,7 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model.Where(e => e.AccountID == accountID).ToList()) {
+@foreach (var item in Model.Where(e => e.AccountID == accountID).OrderByDescending(e=>e.TicketID).ToList()) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Account.Username)
@@ -53,7 +53,12 @@
             @Html.DisplayFor(modelItem => item.TicketDescription)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TicketAttachment)
+            @if (item.TicketAttachment != null)
+            {
+            <a href="~/TicketAttachments/@item.TicketAttachment">
+                دانلود فایل
+                @*@Html.DisplayFor(modelItem => item.TicketAttachment)*@
+            </a>}
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TicketStatus)

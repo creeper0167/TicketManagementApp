@@ -22,82 +22,103 @@
     </head>*@
 <body>
     <div>
-        <h4>اطلاعات تیکت</h4>
+
+        <h4 class="text-center">اطلاعات تیکت</h4>
         <hr />
-        <dl class="dl-horizontal">
-            <dt>
+
+        <div class="card">
+            <div class="card-header bg-info">
                 ایجاد کننده تیکت
-            </dt>
+            </div>
+            <div class="card-body">
+                <p class="card-text">@Html.DisplayFor(model => model.Account.FullName)</p>
+            </div>
+        </div>
 
-            <dd>
-                @Html.DisplayFor(model => model.Account.FullName)
-            </dd>
-
-            <dt>
+        <div class="card">
+            <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
-            </dt>
+            </div>
+            <div class="card-body">
+                <p class="card-text">@Html.DisplayFor(model => model.TicketGroup.TicketGroupTitle)</p>
+            </div>
+        </div>
 
-            <dd>
-                @Html.DisplayFor(model => model.TicketGroup.TicketGroupTitle)
-            </dd>
-
-            <dt>
+        <div class="card">
+            <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketSubject)
-            </dt>
+            </div>
+            <div class="card-body">
+                <p class="card-text">@Html.DisplayFor(model => model.TicketSubject)</p>
+            </div>
+        </div>
 
-            <dd>
-                @Html.DisplayFor(model => model.TicketSubject)
-            </dd>
-
-            <dt>
+        <div class="card">
+            <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketDescription)
-            </dt>
+            </div>
+            <div class="card-body">
+                <p class="card-text"> @Html.DisplayFor(model => model.TicketDescription)</p>
+            </div>
+        </div>
 
-            <dd>
-                @Html.DisplayFor(model => model.TicketDescription)
-            </dd>
-
-            <dt>
+        <div class="card">
+            <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketAttachment)
-            </dt>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    <a href="~/TicketAttachments/@Model.TicketAttachment">
+                        دانلود فایل ضمیمه
+                        @*@Html.DisplayFor(model => model.TicketAttachment)*@
+                    </a>
+                </p>
+            </div>
+        </div>
 
-            <dd>
-                <a href="~/TicketAttachments/@Model.TicketAttachment">@Html.DisplayFor(model => model.TicketAttachment)</a>
-            </dd>
-
-            <dt>
+        <div class="card">
+            <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketStatus)
-            </dt>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    @Html.DisplayFor(model => model.TicketStatus)
+                </p>
+            </div>
+        </div>
 
-            <dd>
-                @Html.DisplayFor(model => model.TicketStatus)
-            </dd>
-
-            <dt>
+        <div class="card">
+            <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketDate)
-            </dt>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    @{
+                        string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
+                    }
+                    @date
+                </p>
+            </div>
+        </div>
 
-            <dd>
-                @{
-                    string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
-                }
-                @date
-                @*@Html.DisplayFor(model => model.TicketDate)*@
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketReply)
-            </dt>
-            @foreach (var item in Model.TicketReply)
-            {
-                <dd>
-                    @Html.DisplayFor(model => item.Text)
-                </dd>
-            }
-        </dl>
+        <div class="card">
+            <div class="card-header bg-info">
+                پاسخ های تیکت
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+                    {
+                        <span>-</span> @Html.DisplayFor(model => item.Text)
+                        <hr />
+                    }
+                </p>
+            </div>
+        </div>
     </div>
     <hr />
     <p>
         @*@Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |*@
         @Html.ActionLink("بازگشت", "Index", "", htmlAttributes: new { @class = "btn btn-danger" })
     </p>
-
+    </body>

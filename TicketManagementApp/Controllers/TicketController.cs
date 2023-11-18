@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using TicketManagementApp.Context;
 using TicketManagementApp.Models;
@@ -44,6 +46,8 @@ namespace TicketManagementApp.Controllers
         public ActionResult Index([Bind(Include ="TicketID,TicketGroupID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus")] Ticket ticket
             , HttpPostedFileBase TicketAttachmentUpload)
         {
+            var result = new {isValid= true};
+            
             if (ModelState.IsValid)
             {
 
@@ -59,9 +63,12 @@ namespace TicketManagementApp.Controllers
 
                 _tkContext.Tickets.Add(ticket);
                 _tkContext.SaveChanges();
-                return RedirectToAction("Index");
+                //await JS.InvokeVoidAsync("displayAlert");
+                //return RedirectToAction("TicketView");
+                return Json(result);
             }
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
+            ViewBag.IsSuccess = true;
             return View();
         }
         public ActionResult TicketReply(int? id)

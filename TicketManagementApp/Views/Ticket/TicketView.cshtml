@@ -5,95 +5,121 @@
     //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
     Layout = "~/Views/Shared/_DefPage1.cshtml";
     PersianCalendar persianCalendar = new PersianCalendar();
+    int counter = 0;
 }
 
 @*<!DOCTYPE html>*@
 
 @*<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/style.css" rel="stylesheet" type="text/css"/>
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-</head>*@
-<body>
-    <div class="min-vh-100">
-        <h1 class="text-center text-primary">لیست تیکت ها</h1>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/style.css" rel="stylesheet" type="text/css"/>
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    </head>*@
 
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketSubject)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketDescription)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketAttachment)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketStatus)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TicketDate)
-                </th>
-                @*<th>
+<div class="min-vh-100">
+    <h1 class="text-center text-primary">لیست تیکت ها</h1>
+
+    <table class="table">
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketID)*@ ردیف
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketSubject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketAttachment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketDate)
+            </th>
+            @*<th>
                     @Html.DisplayNameFor(model => model.Account.UserGroup)
                 </th>*@
-                <th>عملیات</th>
-            </tr>
+            <th>عملیات</th>
+        </tr>
 
-            @foreach (var item in Model)
+        @foreach (var item in Model.OrderByDescending(i => i.TicketID).ToList())
+        {
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketGroup.TicketGroupTitle)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketSubject)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketDescription)
-                    </td>
-                    <td>
-                        <a href="~/TicketAttachments/@item.TicketAttachment">@Html.DisplayFor(modelItem => item.TicketAttachment)</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketStatus)
-                    </td>
+                counter++;
+            }
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.TicketID)*@ @counter
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketGroup.TicketGroupTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketSubject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketDescription)
+                </td>
+                <td>
+                    @if (item.TicketAttachment != null)
+                    {
+                        <a href="~/TicketAttachments/@item.TicketAttachment">
+                            دانلود فایل
+                            @*@Html.DisplayFor(modelItem => item.TicketAttachment)*@
+                        </a>}
+                </td>
+                <td>
+                    @if (item.TicketStatus == "در انتظار بررسی")
+                    {
+                        <span class="bg-success p-2 rounded-5">@Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                    }
+                    @if (item.TicketStatus == "در حال بررسی")
+                    {
+                        <span class="bg-warning p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                    }
+                    @if (item.TicketStatus == "بسته شده")
+                    {
+                        <span class="bg-danger p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                    }
+                </td>
 
 
-                    <td>
-                        @{
-                            string date = persianCalendar.GetYear(item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(item.TicketDate).ToString();
-                        }
-                        @date
-                        @*@Html.DisplayFor(modelItem => item.TicketDate)*@
-                    </td>
-                    @*<td>
+                <td>
+                    @{
+                        string date = persianCalendar.GetYear(item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(item.TicketDate).ToString();
+                    }
+                    @date
+                    @*@Html.DisplayFor(modelItem => item.TicketDate)*@
+                </td>
+                @*<td>
                         @Html.DisplayFor(modelItem => item.Account.UserGroup)
                     </td>*@
-                    <td>
-                        @Html.ActionLink("پاسخ", "TicketReply", new { id = item.TicketID }) |
-                        @Html.ActionLink("جزئیات", "TicketDetails", new { id = item.TicketID }, htmlAttributes: new {@class="text-info"}) @*|*@
-                        @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
-                    </td>
-                </tr>
-             }
+                <td>
+                    @Html.ActionLink("پاسخ", "TicketReply", new { id = item.TicketID }) |
+                    @Html.ActionLink("جزئیات", "TicketDetails", new { id = item.TicketID }, htmlAttributes: new { @class = "text-info" }) @*|*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
+                </td>
+            </tr>
+        }
 
-        </table>
-    </div>
-</body>
+    </table>
+</div>
+@*@section s{
+    <script>
+        $(document).ready(function () {
+            alert("s");
+        });
+    </script>
+}*@
 

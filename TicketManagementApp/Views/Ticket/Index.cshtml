@@ -6,9 +6,6 @@
     ViewBag.Title = "Create";
 }
 
-<!DOCTYPE html>
-
-<html dir="rtl">
 <!--<head>
 
     <meta charset="utf-8">
@@ -18,104 +15,104 @@
     <meta name="author" content="">
 
     <title>SB Admin - Bootstrap Admin Template</title>-->
-
-    <!-- Bootstrap Core /Content/css -->
-    <!--<link href="~/Content/css/bootstrap.min.css" rel="stylesheet">-->
-
-    <!-- Custom /Content/css -->
-    <!--<link href="~/Content/css/sb-admin.css" rel="stylesheet">-->
-
-    <!-- Morris Charts /Content/css -->
-    <!--<link href="~/Content/css/plugins/morris.css" rel="stylesheet">-->
-
-    <!-- Custom Fonts -->
-    <!--<link href="~/Content/font-awesome/Content/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond./Content/js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+<!-- Bootstrap Core /Content/css -->
+<!--<link href="~/Content/css/bootstrap.min.css" rel="stylesheet">-->
+<!-- Custom /Content/css -->
+<!--<link href="~/Content/css/sb-admin.css" rel="stylesheet">-->
+<!-- Morris Charts /Content/css -->
+<!--<link href="~/Content/css/plugins/morris.css" rel="stylesheet">-->
+<!-- Custom Fonts -->
+<!--<link href="~/Content/font-awesome/Content/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond./Content/js/1.4.2/respond.min.js"></script>
+<![endif]-->
 <!--</head>-->
 <!--<head>-->
+@*<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />*@
+@*<script src="~/Scripts/modernizr-2.6.2.js"></script>*@
+<!--</head>-->
 
-        @*<meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title - My ASP.NET Application</title>
-        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="~/Content/style.css" rel="stylesheet" type="text/css" />*@
-        @*<script src="~/Scripts/modernizr-2.6.2.js"></script>*@
-    <!--</head>-->
-<body>
-    @*<div class="container-fluid bg-light min-vh-100">*@
-        <div class="d-flex justify-content-center ">
-            @using (Html.BeginForm("Index", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-            <div class="form-horizontal bg-warning p-4">
-                <h4>Ticket</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="form-group m-3">
-                    @Html.LabelFor(model => model.TicketSubject, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.TicketSubject, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.TicketSubject, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group m-3">
-                    @Html.LabelFor(model => model.TicketGroupID, "نوع تیکت", htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("TicketGroupID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.TicketGroupID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Account.UserGroupID, "UserGroupID", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("UserGroupID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Account.UserGroupID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group m-3">
-                    @Html.LabelFor(model => model.TicketDescription, htmlAttributes: new { @class = "control-label col-md-3 " })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.TicketDescription, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.TicketDescription, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+@using (Html.BeginForm("Index", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.TicketAttachment, htmlAttributes: new { @class = "control-label col-md-2" })
- 
-                        @*@Html.EditorFor(model => model.TicketAttachment, new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.ValidationMessageFor(model => model.TicketAttachment, "", new { @class = "text-danger" })
-                        <input class="form-control" type="file" name="TicketAttachmentUpload" />
-
-                </div>
-
-                @*<div class="form-group">
-            @Html.LabelFor(model => model.TicketStatus, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TicketStatus, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TicketStatus, "", new { @class = "text-danger" })
+    <div class="">
+        <h4>تیکت جدید</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.TicketSubject, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.EditorFor(model => model.TicketSubject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TicketSubject, "", new { @class = "text-danger" })
             </div>
-        </div>*@
-
-                <div class="form-group">
-                  
-                        <input class="btn btn-danger" type="submit" value="ارسال تیکت" class="btn btn-default" />
-                
-                </div>
+        </div>
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.TicketGroupID, "نوع تیکت", htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.DropDownList("TicketGroupID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TicketGroupID, "", new { @class = "text-danger" })
             </div>
-            }
+        </div>
 
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.Account.UserGroupID, "واحد", htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.DropDownList("UserGroupID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Account.UserGroupID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TicketDescription, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.EditorFor(model => model.TicketDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TicketDescription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group mx-sm-3">
+            @Html.LabelFor(model => model.TicketAttachment, htmlAttributes: new { @class = "control-label" })
+
+            @*@Html.EditorFor(model => model.TicketAttachment, new { htmlAttributes = new { @class = "form-control" } })*@
+            @Html.ValidationMessageFor(model => model.TicketAttachment, "", new { @class = "text-danger" })
+            <input class="form-control" type="file" name="TicketAttachmentUpload" />
 
         </div>
-    @*</div>*@
-</body>
-</html>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.TicketStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TicketStatus, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TicketStatus, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <input id="ticketSubmit" class="btn btn-danger" type="submit" value="ارسال تیکت" />
+        </div>
+    </div>
+}
+
+@section s{
+    <script>
+        $(document).ready(function () {
+            alert("s");
+        });
+
+        function onSuccess(res) {
+            if (res.isValid)
+                alert("valid");
+        }
+    </script>
+}
