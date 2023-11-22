@@ -53,6 +53,10 @@ namespace TicketManagementApp.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                Role role = new Role();
+                role.Id = 2;
+                role.RoleName = "user";
+                accounts.Role = role;
                 db.Accounts.Add(accounts);
                 db.SaveChanges();
                 return RedirectToAction("Index");

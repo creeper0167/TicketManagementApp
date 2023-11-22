@@ -25,8 +25,8 @@
 
         <h4 class="text-center">اطلاعات تیکت</h4>
         <hr />
-
-        <div class="card">
+        <div class="row">
+        <div class="card col-md-4">
             <div class="card-header bg-info">
                 ایجاد کننده تیکت
             </div>
@@ -35,7 +35,20 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card col-md-4">
+            <div class="card-header bg-info">
+                @Html.DisplayNameFor(model => model.TicketDate)
+            </div>
+            <div class="card-body col-md-4">
+                <p class="card-text">
+                    @{
+                        string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
+                    }
+                    @date
+                </p>
+            </div>
+        </div>
+        <div class="card col-md-4">
             <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
             </div>
@@ -44,7 +57,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card col-md-4">
             <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketSubject)
             </div>
@@ -53,7 +66,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card col-md-4">
             <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketDescription)
             </div>
@@ -62,7 +75,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card col-md-4">
             <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketAttachment)
             </div>
@@ -76,7 +89,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card col-md-4">
             <div class="card-header bg-info">
                 @Html.DisplayNameFor(model => model.TicketStatus)
             </div>
@@ -87,19 +100,6 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header bg-info">
-                @Html.DisplayNameFor(model => model.TicketDate)
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                    @{
-                        string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
-                    }
-                    @date
-                </p>
-            </div>
-        </div>
 
         <div class="card">
             <div class="card-header bg-info">
@@ -114,6 +114,7 @@
                 }
                     </p>
                 </div>
+        </div>
         </div>
     </div>
     <hr />

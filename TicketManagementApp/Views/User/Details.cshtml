@@ -43,6 +43,19 @@
                 <p class="card-text">@Html.DisplayFor(model => model.TicketGroup.TicketGroupTitle)</p>
             </div>
         </div>
+        <div class="card">
+            <div class="card-header bg-info">
+                @Html.DisplayNameFor(model => model.TicketDate)
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    @{
+                        string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
+                    }
+                    @date
+                </p>
+            </div>
+        </div>
 
         <div class="card">
             <div class="card-header bg-info">
@@ -87,19 +100,6 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header bg-info">
-                @Html.DisplayNameFor(model => model.TicketDate)
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                    @{
-                        string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
-                    }
-                    @date
-                </p>
-            </div>
-        </div>
 
         <div class="card">
             <div class="card-header bg-info">

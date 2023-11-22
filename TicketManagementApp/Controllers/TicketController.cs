@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -34,11 +35,12 @@ namespace TicketManagementApp.Controllers
 
             return View();
         }
-        public ActionResult TicketView()
+        public ActionResult TicketView(int? page)
         {
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
+            int pageNumebr = (page ?? 1);
 
-            return View(_ticketRepo.GetAllTickets());
+            return View(_ticketRepo.GetAllTickets().ToList().ToPagedList(pageNumebr, 10));
         }
 
         [HttpPost]

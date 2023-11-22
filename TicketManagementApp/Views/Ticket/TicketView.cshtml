@@ -1,6 +1,8 @@
-﻿@model IEnumerable<TicketManagementApp.Models.Ticket>
+﻿@*@model IEnumerable<TicketManagementApp.Models.Ticket>*@
 @using TicketManagementApp.Models;
 @using System.Globalization;
+@using PagedList.Mvc
+@model PagedList.IPagedList<TicketManagementApp.Models.Ticket>
 @{
     //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
     Layout = "~/Views/Shared/_DefPage1.cshtml";
@@ -30,22 +32,22 @@
                 @*@Html.DisplayNameFor(model => model.TicketID)*@ ردیف
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
+                @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ نوع تیکت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TicketSubject)
+                @*@Html.DisplayNameFor(model => model.TicketSubject)*@ موضوع
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TicketDescription)
+                @*@Html.DisplayNameFor(model => model.TicketDescription)*@ شرح تیکت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TicketAttachment)
+                @*@Html.DisplayNameFor(model => model.TicketAttachment)*@ فایل ضمیمه
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TicketStatus)
+                @*@Html.DisplayNameFor(model => model.TicketStatus)*@ وضعیت تیکت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TicketDate)
+                @*@Html.DisplayNameFor(model => model.TicketDate)*@ تاریخ تیکت
             </th>
             @*<th>
                     @Html.DisplayNameFor(model => model.Account.UserGroup)
@@ -114,12 +116,16 @@
         }
 
     </table>
+    <div id="pager">
+        @*<p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>*@
+        @Html.PagedListPager(Model, page => Url.Action("TicketView", new { page }))
+    </div>
 </div>
 @*@section s{
-    <script>
-        $(document).ready(function () {
-            alert("s");
-        });
-    </script>
-}*@
+        <script>
+            $(document).ready(function () {
+                alert("s");
+            });
+        </script>
+    }*@
 

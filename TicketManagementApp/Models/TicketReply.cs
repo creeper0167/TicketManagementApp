@@ -12,9 +12,13 @@ namespace TicketManagementApp.Models
         public int ReplyId { get; set; }
         [Display(Name ="شماره تیکت")]
         public int TicketId { get; set; }
+        //[Display(Name ="پاسخ دعنده")]
+        //public int AccountID { get; set; }
+
         [Required]
         public string Text { get; set; }
 
+        
         public TicketReply()
         {
             
