@@ -69,6 +69,9 @@
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
@@ -1020,6 +1023,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AccountsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TicketGroupsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TicketsController.cs" />
     <Compile Include="Areas\Users\UsersAreaRegistration.cs" />
@@ -1307,6 +1311,11 @@
     <Content Include="Content\sweetalert\sweet-alert-animations.less" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\mixins.less" />
+    <Content Include="Areas\Admin\Views\Accounts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Accounts\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Accounts\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Accounts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Accounts\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />

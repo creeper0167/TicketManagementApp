@@ -1,0 +1,61 @@
+﻿@model TicketManagementApp.Models.Accounts
+@using System.Globalization;
+
+@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_DefPage1.cshtml";
+    PersianCalendar persianCalendar = new PersianCalendar();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Accounts</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.UserGroup.UserGroupTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserGroup.UserGroupTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Username)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Username)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Password)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Password)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FullName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.AccountID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>
