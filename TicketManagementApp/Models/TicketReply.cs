@@ -10,20 +10,25 @@ namespace TicketManagementApp.Models
     {
         [Key]
         public int ReplyId { get; set; }
+
         [Display(Name ="شماره تیکت")]
-        public int TicketId { get; set; }
-        //[Display(Name ="پاسخ دعنده")]
-        //public int AccountID { get; set; }
+        public int TicketID { get; set; }
+
+        [Display(Name = "پاسخ دعنده")]
+        public int? AccountID { get; set; }
 
         [Required]
         public string Text { get; set; }
 
-        
+        [Required]
+        [Display(Name ="تاریخ پاسخ")]
+        public DateTime TicketDate { get; set; }
+
         public TicketReply()
         {
             
         }
         public virtual Ticket Ticket { get; set; }
-
+        //public virtual Accounts Accounts { get; set; }
     }
 }

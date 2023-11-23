@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init1 : DbMigration
+    public partial class init2 : DbMigration
     {
         public override void Up()
         {
@@ -41,12 +41,14 @@
                 c => new
                     {
                         ReplyId = c.Int(nullable: false, identity: true),
-                        TicketId = c.Int(nullable: false),
+                        TicketID = c.Int(nullable: false),
+                        AccountID = c.Int(),
                         Text = c.String(nullable: false),
+                        TicketDate = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.ReplyId)
-                .ForeignKey("dbo.Tickets", t => t.TicketId, cascadeDelete: true)
-                .Index(t => t.TicketId);
+                .ForeignKey("dbo.Tickets", t => t.TicketID, cascadeDelete: true)
+                .Index(t => t.TicketID);
             
             CreateTable(
                 "dbo.UserGroups",
@@ -74,10 +76,10 @@
             AddColumn("dbo.TicketGroups", "TicketGroup_TicketGroupID", c => c.Int());
             DropForeignKey("dbo.Tickets", "UserGroup_UserGroupID", "dbo.UserGroups");
             DropForeignKey("dbo.Accounts", "UserGroupID", "dbo.UserGroups");
-            DropForeignKey("dbo.TicketReplies", "TicketId", "dbo.Tickets");
+            DropForeignKey("dbo.TicketReplies", "TicketID", "dbo.Tickets");
             DropForeignKey("dbo.Tickets", "AccountID", "dbo.Accounts");
             DropForeignKey("dbo.Accounts", "Role_Id", "dbo.Roles");
-            DropIndex("dbo.TicketReplies", new[] { "TicketId" });
+            DropIndex("dbo.TicketReplies", new[] { "TicketID" });
             DropIndex("dbo.Tickets", new[] { "UserGroup_UserGroupID" });
             DropIndex("dbo.Tickets", new[] { "AccountID" });
             DropIndex("dbo.Accounts", new[] { "Role_Id" });

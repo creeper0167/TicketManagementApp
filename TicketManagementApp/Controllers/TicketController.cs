@@ -88,8 +88,10 @@ namespace TicketManagementApp.Controllers
             if (ModelState.IsValid)
             {
                 TicketReply reply = new TicketReply();
-                reply.TicketId = ticket.TicketID;
+                reply.TicketID = ticket.TicketID;
                 reply.Text = replyText;
+                reply.AccountID = Int32.Parse(Session["AccountID"].ToString());
+                reply.TicketDate = DateTime.Now;
                 _ticketReplyRepo.InsertTicketReply(reply);
                 _ticketReplyRepo.Save();
                 ticket1.TicketReply.Add(reply);
@@ -105,7 +107,10 @@ namespace TicketManagementApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = _ticketRepo.GetTicketById(id.Value);
-            ticket.TicketStatus = "در حال بررسی";
+            
+            if(ticket.TicketStatus == "در انتظار بررسی")
+                ticket.TicketStatus = "در حال بررسی";
+            
             _ticketRepo.UpdateTicket(ticket);
             _ticketRepo.Save();
             if (ticket == null)

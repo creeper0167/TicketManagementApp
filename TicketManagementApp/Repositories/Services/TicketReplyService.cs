@@ -40,7 +40,7 @@ namespace TicketManagementApp.Repositories.Services
 
         public IEnumerable<TicketReply> GetTicketRepliesByTicketId(int ticketId)
         {
-            return _tkContext.TicketReplys.Where(item => item.TicketId == ticketId);
+            return _tkContext.TicketReplys.Where(item => item.TicketID == ticketId);
         }
 
         public TicketReply GetTicketReplyById(int id)

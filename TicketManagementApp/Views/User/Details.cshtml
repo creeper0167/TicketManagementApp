@@ -2,8 +2,8 @@
 @using System.Globalization;
 @{
     ViewBag.Title = "Details";
-    //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
-    Layout = "~/Views/Shared/_DefPage1.cshtml";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    //Layout = "~/Views/Shared/_DefPage1.cshtml";
     PersianCalendar persianCalendar = new PersianCalendar();
 }
 
@@ -24,101 +24,181 @@
     <div>
 
         <h4 class="text-center">اطلاعات تیکت</h4>
+        @*<hr />*@
+
+        <!--table-->
+        <table class="table table-bordered">
+            <thead class="bg-warning">
+                <tr>
+                    <th scope="col">ارسال کننده تیکت</th>
+                    <th scope="col">تاریخ ایجاد</th>
+                    <th scope="col">فایل ضمیمه</th>
+                    <th scope="col">وضعیت تیکت</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                <tr>
+                    <th scope="row">@Html.DisplayFor(model => model.Account.FullName)</th>
+                    <td>
+                        @{
+                            string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
+                        }
+                        @date
+                    </td>
+                    <td>
+                        <a href="~/TicketAttachments/@Model.TicketAttachment">
+                            دانلود فایل ضمیمه
+                        </a>
+                    </td>
+                    <td>@Html.DisplayFor(model => model.TicketStatus)</td>
+                </tr>
+
+            </tbody>
+        </table>
+        <!--end table-->
+        @*<div class="row">
+
+
+            <div class="card">
+                <div class="card-header bg-info">
+                    پاسخ های تیکت
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+                        {
+                            <span>-</span> @Html.DisplayFor(model => item.Text)
+                            <hr />
+                        }
+                    </p>
+                </div>
+            </div>
+
+
+        </div>*@
+        <div class="overflow-auto p-4 col-md-5" style="height:60vh;overflow:auto;">
+            <div class="overflow-auto">
+                @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+                {
+                    <div class="card">
+                        <div class="card-header bg-light d-flex flex-row justify-content-between">
+                            @*پاسخ های تیکت*@
+                            <div>@item.AccountID</div>
+                            <div>
+
+                                @{
+                                    string dateText = persianCalendar.GetYear(@item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(@item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(@item.TicketDate).ToString();
+                                }
+                                @dateText
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                @*@foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+                                {*@
+                                <span>-</span> @Html.DisplayFor(model => item.Text)
+                                <hr />
+                                @*}*@
+                            </p>
+                        </div>
+                    </div>
+                }
+                <div class="card">
+                    <div class="card-header bg-light">
+                        @*پاسخ های تیکت*@
+                        <span>@Html.DisplayFor(model => model.Account.FullName)</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            @*@foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+                            {*@
+                            <span>-</span> @Html.DisplayFor(model => model.TicketDescription)
+                            <hr />
+                            @*}*@
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <hr />
-
-        <div class="card">
-            <div class="card-header bg-info">
-                ایجاد کننده تیکت
-            </div>
-            <div class="card-body">
-                <p class="card-text">@Html.DisplayFor(model => model.Account.FullName)</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header bg-info">
-                @Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)
-            </div>
-            <div class="card-body">
-                <p class="card-text">@Html.DisplayFor(model => model.TicketGroup.TicketGroupTitle)</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header bg-info">
-                @Html.DisplayNameFor(model => model.TicketDate)
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                    @{
-                        string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
-                    }
-                    @date
-                </p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header bg-info">
-                @Html.DisplayNameFor(model => model.TicketSubject)
-            </div>
-            <div class="card-body">
-                <p class="card-text">@Html.DisplayFor(model => model.TicketSubject)</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header bg-info">
-                @Html.DisplayNameFor(model => model.TicketDescription)
-            </div>
-            <div class="card-body">
-                <p class="card-text"> @Html.DisplayFor(model => model.TicketDescription)</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header bg-info">
-                @Html.DisplayNameFor(model => model.TicketAttachment)
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                    <a href="~/TicketAttachments/@Model.TicketAttachment">
-                        دانلود فایل ضمیمه
-                        @*@Html.DisplayFor(model => model.TicketAttachment)*@
-                    </a>
-                </p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header bg-info">
-                @Html.DisplayNameFor(model => model.TicketStatus)
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                    @Html.DisplayFor(model => model.TicketStatus)
-                </p>
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-header bg-info">
-                پاسخ های تیکت
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                    @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+        <!--فرم پاسخ به تیکت-->
+        @* reply box *@
+        @if (Model.TicketStatus != "بسته شده")
+        {
+            <div class="container-fluid">
+                <div>
+                    @using (Html.BeginForm("TicketReply", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
-                        <span>-</span> @Html.DisplayFor(model => item.Text)
-                        <hr />
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal p-4">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div hidden="true" class="form-group m-3">
+                                @Html.LabelFor(model => model.TicketID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.TicketID, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.TicketID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group mx-auto">
+
+                                <label class="control-label col-md-3">متن ارسالی</label>
+                                @*@Html.LabelFor(model => model.TicketReply, htmlAttributes: new { @class = "control-label col-md-3 " })*@
+                                <div class="">
+                                    <textarea class="form-control" type="text" name="replyText" rows="8"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <input class="btn btn-success" type="submit" value="ارسال پاسخ" />
+                                @*@Html.ActionLink("پاسخ", "TicketReplyPost", new {id = Model.TicketID}, htmlAttributes: new { @class = "btn btn-success text-white" , @type="submit"})*@
+                                @*@Html.ActionLink("بستن تیکت", "CloseTicket", new { id = Model.TicketID }, htmlAttributes: new { @class = "btn btn-danger" })*@
+                                @Html.ActionLink("بازگشت", "Index", "", htmlAttributes: new { @class = "btn btn-danger text-white" })
+
+                            </div>
+
+                        </div>
                     }
-                </p>
+                </div>
             </div>
-        </div>
+        }
+        <!--فرم غیرفعال-->
+        @if(Model.TicketStatus == "بسته شده"){<div class="container-fluid">
+            <div>
+
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal p-4">
+
+                        <div class="form-group mx-auto">
+
+                            <label class="control-label col-md-3">متن ارسالی</label>
+                            @*@Html.LabelFor(model => model.TicketReply, htmlAttributes: new { @class = "control-label col-md-3 " })*@
+                            <div class="">
+                                <textarea style="resize:none;" class="form-control" type="text" name="replyText" rows="8" readonly></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <input class="btn" type="submit" value="ارسال پاسخ" readonly/>
+                            @*@Html.ActionLink("پاسخ", "TicketReplyPost", new {id = Model.TicketID}, htmlAttributes: new { @class = "btn btn-success text-white" , @type="submit"})*@
+                            @*@Html.ActionLink("بستن تیکت", "CloseTicket", new { id = Model.TicketID }, htmlAttributes: new { @class = "btn btn-danger" })*@
+                            @*@Html.ActionLink("بازگشت", "TicketView", "TicketView", htmlAttributes: new { @class = "btn btn-danger text-white" })*@
+
+                        </div>
+                    </div>
+            </div>
+        </div>}
+        <!--انتهای فرم غیرفعال-->
+
+        @* end of reply box *@
+        <!---->
     </div>
-    <hr />
+    @*<hr />*@
     <p>
         @*@Html.ActionLink("Edit", "Edit", new { id = Model.TicketID }) |*@
-        @Html.ActionLink("بازگشت", "Index", "", htmlAttributes: new { @class = "btn btn-danger" })
+        @*@Html.ActionLink("بازگشت", "TicketView", "", htmlAttributes: new { @class = "btn btn-danger" })*@
     </p>
-    </body>
+</body>

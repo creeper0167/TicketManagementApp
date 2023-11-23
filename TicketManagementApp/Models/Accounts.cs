@@ -31,6 +31,7 @@ namespace TicketManagementApp.Models
 
         public virtual UserGroup UserGroup { get; set; }
         public virtual List<Ticket> Ticket { get; set; }
+        //public virtual List<TicketReply> Replies { get; set; }
         public virtual Role Role { get; set; }
     }
 }
