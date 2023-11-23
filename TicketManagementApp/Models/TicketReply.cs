@@ -22,13 +22,13 @@ namespace TicketManagementApp.Models
 
         [Required]
         [Display(Name ="تاریخ پاسخ")]
-        public DateTime TicketDate { get; set; }
+        public DateTime ReplyDate { get; set; }
 
         public TicketReply()
         {
             
         }
         public virtual Ticket Ticket { get; set; }
-        //public virtual Accounts Accounts { get; set; }
+        public virtual Accounts Accounts { get; set; }
     }
 }

@@ -91,14 +91,15 @@ namespace TicketManagementApp.Controllers
                 reply.TicketID = ticket.TicketID;
                 reply.Text = replyText;
                 reply.AccountID = Int32.Parse(Session["AccountID"].ToString());
-                reply.TicketDate = DateTime.Now;
+                reply.ReplyDate = DateTime.Now;
                 _ticketReplyRepo.InsertTicketReply(reply);
                 _ticketReplyRepo.Save();
                 ticket1.TicketReply.Add(reply);
                 _ticketRepo.UpdateTicket(ticket1);
                 _ticketRepo.Save();
             }
-            return View(ticket1);
+            return RedirectToAction("TicketView");
+            //return View(ticket1);
         }
         public ActionResult TicketDetails(int? id)
         {

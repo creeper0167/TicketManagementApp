@@ -1039,13 +1039,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202311221207173_init2.cs" />
-    <Compile Include="Migrations\202311221207173_init2.designer.cs">
-      <DependentUpon>202311221207173_init2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202311230515063_init21.cs" />
-    <Compile Include="Migrations\202311230515063_init21.designer.cs">
-      <DependentUpon>202311230515063_init21.cs</DependentUpon>
+    <Compile Include="Migrations\202311230809530_init.cs" />
+    <Compile Include="Migrations\202311230809530_init.designer.cs">
+      <DependentUpon>202311230809530_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accounts.cs" />
@@ -1357,11 +1353,8 @@
     <Folder Include="TicketAttachments\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202311221207173_init2.resx">
-      <DependentUpon>202311221207173_init2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202311230515063_init21.resx">
-      <DependentUpon>202311230515063_init21.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202311230809530_init.resx">
+      <DependentUpon>202311230809530_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
