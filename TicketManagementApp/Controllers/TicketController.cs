@@ -80,6 +80,7 @@ namespace TicketManagementApp.Controllers
             Ticket ticket = _tkContext.Tickets.Find(id);
             return View(ticket);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult TicketReply([Bind]Ticket ticket, string replyText)

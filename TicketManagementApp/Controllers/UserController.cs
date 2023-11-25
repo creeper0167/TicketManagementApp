@@ -13,12 +13,16 @@ using System.Web.Security;
 using System.Web.UI.WebControls;
 using TicketManagementApp.Context;
 using TicketManagementApp.Models;
+using TicketManagementApp.Repositories;
+using TicketManagementApp.Repositories.Services;
 
 namespace TicketManagementApp.Controllers
 {
     public class UserController : Controller
     {
         private TkContext db = new TkContext();
+        private ITicketReplyRepo _ticketReplyRepo = new TicketReplyService();
+        private ITicketRepo _ticketRepo = new TicketService();
 
         // GET: User
         public ActionResult Index()
@@ -164,9 +168,32 @@ namespace TicketManagementApp.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Login");
         }
+
         //public ActionResult UserRouteAction() {
         //    if (Session["RoleID"])
         //    return View(); 
         //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TicketReply([Bind] Ticket ticket, string replyText)
+        {
+            Ticket ticket1 = db.Tickets.Find(ticket.TicketID);
+            if (ModelState.IsValid)
+            {
+                TicketReply reply = new TicketReply();
+                reply.TicketID = ticket.TicketID;
+                reply.Text = replyText;
+                reply.AccountID = Int32.Parse(Session["AccountID"].ToString());
+                reply.ReplyDate = DateTime.Now;
+                _ticketReplyRepo.InsertTicketReply(reply);
+                _ticketReplyRepo.Save();
+                ticket1.TicketReply.Add(reply);
+                _ticketRepo.UpdateTicket(ticket1);
+                _ticketRepo.Save();
+            }
+            return RedirectToAction("Index");
+            //return View(ticket1);
+        }
     }
 }

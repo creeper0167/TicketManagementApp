@@ -59,51 +59,61 @@
         @*<div class="row">
 
 
-            <div class="card">
-                <div class="card-header bg-info">
-                    پاسخ های تیکت
-                </div>
-                <div class="card-body">
-                    <p class="card-text">
-                        @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
-                        {
-                            <span>-</span> @Html.DisplayFor(model => item.Text)
-                            <hr />
-                        }
-                    </p>
-                </div>
-            </div>
-
-
-        </div>*@
-        <div class="overflow-auto p-4 col-md-5" style="height:60vh;overflow:auto;">
-            <div class="overflow-auto">
-                @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
-                {
-                    <div class="card">
-                        <div class="card-header bg-light d-flex flex-row justify-content-between">
-                            @*پاسخ های تیکت*@
-                            <div>@item.AccountID</div>
-                            <div>
-
-                                @{
-                                    string dateText = persianCalendar.GetYear(@item.ReplyDate).ToString() + "/" + persianCalendar.GetMonth(@item.ReplyDate).ToString() + "/" + persianCalendar.GetDayOfMonth(@item.ReplyDate).ToString();
-                                }
-                                @dateText
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                @*@foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
-                                {*@
+                <div class="card">
+                    <div class="card-header bg-info">
+                        پاسخ های تیکت
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+                            {
                                 <span>-</span> @Html.DisplayFor(model => item.Text)
                                 <hr />
-                                @*}*@
-                            </p>
+                            }
+                        </p>
+                    </div>
+                </div>
+
+
+            </div>*@
+        <div class="overflow-auto p-4" style="height:60vh;overflow:auto;">
+            <div class="container">
+                @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+                {
+                    
+                    //string className = counter % 2 == 0 ? "col-md-7 float-right" : "col-md-7 float-left";
+                    string className = item.Accounts.Role.RoleId == Int32.Parse(Session["RoleID"].ToString()) ? "card float-right col-md-7" : "card col-md-7 float-left";
+                    <div class="">
+
+
+
+                        <div class="@className">
+                            <div class="card-header bg-light d-flex flex-row justify-content-between">
+                                @*پاسخ های تیکت*@
+                                <div>@item.Accounts.FullName</div>
+                                <div>
+
+                                    @{
+                                        string dateText = persianCalendar.GetYear(@item.ReplyDate).ToString() + "/" + persianCalendar.GetMonth(@item.ReplyDate).ToString() + "/" + persianCalendar.GetDayOfMonth(@item.ReplyDate).ToString();
+                                    }
+                                    @dateText
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    @*@foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
+                                        {*@
+                                    <span class="h6">متن پیام:</span><em>
+                                        @Html.DisplayFor(model => item.Text)
+                                    </em>
+
+                                    @*}*@
+                                </p>
+                            </div>
                         </div>
                     </div>
                 }
-                <div class="card">
+                <div class="card col-md-7 float-right">
                     <div class="card-header bg-light">
                         @*پاسخ های تیکت*@
                         <span>@Html.DisplayFor(model => model.Account.FullName)</span>
@@ -111,9 +121,9 @@
                     <div class="card-body">
                         <p class="card-text">
                             @*@foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
-                            {*@
-                            <span>-</span> @Html.DisplayFor(model => model.TicketDescription)
-                            <hr />
+                                {*@
+                            <span class="h6">متن پیام:</span><em> @Html.DisplayFor(model => model.TicketDescription)</em>
+
                             @*}*@
                         </p>
                     </div>
@@ -127,7 +137,7 @@
         {
             <div class="container-fluid">
                 <div>
-                    @using (Html.BeginForm("TicketReply", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("TicketReply", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="form-horizontal p-4">
@@ -138,6 +148,14 @@
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.TicketID, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.TicketID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div hidden="true" class="form-group m-3">
+                                @Html.LabelFor(model => model.AccountID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.AccountID, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.AccountID, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -154,8 +172,8 @@
 
                                 <input class="btn btn-success" type="submit" value="ارسال پاسخ" />
                                 @*@Html.ActionLink("پاسخ", "TicketReplyPost", new {id = Model.TicketID}, htmlAttributes: new { @class = "btn btn-success text-white" , @type="submit"})*@
-                                @*@Html.ActionLink("بستن تیکت", "CloseTicket", new { id = Model.TicketID }, htmlAttributes: new { @class = "btn btn-danger" })*@
-                                @Html.ActionLink("بازگشت", "Index", "", htmlAttributes: new { @class = "btn btn-danger text-white" })
+                                @Html.ActionLink("بستن تیکت", "CloseTicket", new { id = Model.TicketID }, htmlAttributes: new { @class = "btn btn-danger" })
+                                @Html.ActionLink("بازگشت", "Index", "Index", htmlAttributes: new { @class = "btn btn-danger text-white" })
 
                             </div>
 
@@ -165,8 +183,9 @@
             </div>
         }
         <!--فرم غیرفعال-->
-        @if(Model.TicketStatus == "بسته شده"){<div class="container-fluid">
-            <div>
+        @if (Model.TicketStatus == "بسته شده")
+        {<div class="container-fluid">
+                <div>
 
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal p-4">
@@ -182,17 +201,16 @@
 
                         <div class="form-group">
 
-                            <input class="btn" type="submit" value="ارسال پاسخ" readonly/>
+                            <input class="btn" type="submit" value="ارسال پاسخ" readonly />
                             @*@Html.ActionLink("پاسخ", "TicketReplyPost", new {id = Model.TicketID}, htmlAttributes: new { @class = "btn btn-success text-white" , @type="submit"})*@
                             @*@Html.ActionLink("بستن تیکت", "CloseTicket", new { id = Model.TicketID }, htmlAttributes: new { @class = "btn btn-danger" })*@
                             @*@Html.ActionLink("بازگشت", "TicketView", "TicketView", htmlAttributes: new { @class = "btn btn-danger text-white" })*@
 
                         </div>
                     </div>
-            </div>
-        </div>}
+                </div>
+            </div>}
         <!--انتهای فرم غیرفعال-->
-
         @* end of reply box *@
         <!---->
     </div>
