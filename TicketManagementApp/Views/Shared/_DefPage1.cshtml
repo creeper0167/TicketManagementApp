@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -30,6 +31,7 @@
     <link rel="stylesheet" href="~/Content/rtl-temp/dist/css/bootstrap-rtl.min.css">
     <!-- template rtl version -->
     <link rel="stylesheet" href="~/Content/rtl-temp/dist/css/custom-style.css">
+    <link rel="stylesheet" href="~/Content/toastr.css" />
     <style>
         .whats-app {
             position: fixed;
@@ -876,6 +878,7 @@
     <script src="~/Content/rtl-temp/dist/js/demo.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/toastr.js"></script>
     @RenderSection("s", required: false);
     <script>
         $(function () {
@@ -887,7 +890,8 @@
                 alert("notify to all clients");
             };
             chat.client.update = function () {
-                alert('تیکت جدید');
+                toastr.success('لطفا صندوق خود را مجدد باز کنید', 'تیکت جدید دریافت شد');
+
             };
             // Get the user name and store it to prepend to messages.
 
@@ -903,7 +907,7 @@
             });
 
         });
-                    // This optional function html-encodes messages for display in the page.
+                                // This optional function html-encodes messages for display in the page.
 
     </script>
 </body>

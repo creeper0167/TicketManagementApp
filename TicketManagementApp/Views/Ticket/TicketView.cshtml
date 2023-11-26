@@ -124,7 +124,25 @@
 @section s{
 
     <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "0",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
         $(function () {
+            //toastr.success('لطفا آخرین تیکت ثبت شده در سیستم را بررسی کنید','پیغام جدید');
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.myHub1;
             // Create a function that the hub can call back to display messages.
@@ -133,7 +151,8 @@
                 alert("notify to all clients");
             };
             chat.client.update = function () {
-                alert('تیکت جدید');
+                toastr.success('لطفا آخرین تیکت ثبت شده در سیستم را بررسی کنید', 'پیغام جدید');
+
             };
             // Get the user name and store it to prepend to messages.
 

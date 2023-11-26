@@ -221,3 +221,53 @@
         @*@Html.ActionLink("بازگشت", "TicketView", "", htmlAttributes: new { @class = "btn btn-danger" })*@
     </p>
 </body>
+
+@section s{
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "0",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        $(function () {
+            //toastr.success('لطفا آخرین تیکت ثبت شده در سیستم را بررسی کنید','پیغام جدید');
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.myHub1;
+            // Create a function that the hub can call back to display messages.
+            chat.client.updateNotificationBar = function () {
+                // Add the message to the page.
+                alert("notify to all clients");
+            };
+            chat.client.update = function () {
+                toastr.success('لطفا صندوق خود را مجدد باز کنید', 'تیکت جدید دریافت شد');
+
+            };
+            // Get the user name and store it to prepend to messages.
+
+            // Set initial focus to message input box.
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                console.log("connection established");
+                // Call the Send method on the hub.
+                //$("#alertBtn").click(function () {
+                //    chat.server.send();
+                //});
+            });
+
+        });
+                        // This optional function html-encodes messages for display in the page.
+
+    </script>}
