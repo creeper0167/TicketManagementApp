@@ -23,39 +23,40 @@
     </head>*@
 <body>
     <div>
+        <div class="container">
+            <h4 class="text-center">اطلاعات تیکت</h4>
+            @*<hr />*@
 
-        <h4 class="text-center">اطلاعات تیکت</h4>
-        @*<hr />*@
+            <!--table-->
+            <table class="table table-bordered">
+                <thead class="bg-warning">
+                    <tr>
+                        <th scope="col">ارسال کننده تیکت</th>
+                        <th scope="col">تاریخ ایجاد</th>
+                        <th scope="col">فایل ضمیمه</th>
+                        <th scope="col">وضعیت تیکت</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr>
+                        <th scope="row">@Html.DisplayFor(model => model.Account.FullName)</th>
+                        <td>
+                            @{
+                                string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
+                            }
+                            @date
+                        </td>
+                        <td>
+                            <a href="~/TicketAttachments/@Model.TicketAttachment">
+                                دانلود فایل ضمیمه
+                            </a>
+                        </td>
+                        <td>@Html.DisplayFor(model => model.TicketStatus)</td>
+                    </tr>
 
-        <!--table-->
-        <table class="table table-bordered">
-            <thead class="bg-warning">
-                <tr>
-                    <th scope="col">ارسال کننده تیکت</th>
-                    <th scope="col">تاریخ ایجاد</th>
-                    <th scope="col">فایل ضمیمه</th>
-                    <th scope="col">وضعیت تیکت</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white">
-                <tr>
-                    <th scope="row">@Html.DisplayFor(model => model.Account.FullName)</th>
-                    <td>
-                        @{
-                            string date = persianCalendar.GetYear(Model.TicketDate).ToString() + "/" + persianCalendar.GetMonth(Model.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(Model.TicketDate).ToString();
-                        }
-                        @date
-                    </td>
-                    <td>
-                        <a href="~/TicketAttachments/@Model.TicketAttachment">
-                            دانلود فایل ضمیمه
-                        </a>
-                    </td>
-                    <td>@Html.DisplayFor(model => model.TicketStatus)</td>
-                </tr>
-
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
         <!--end table-->
         @*<div class="row">
 

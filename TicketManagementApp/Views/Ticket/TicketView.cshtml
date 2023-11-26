@@ -121,11 +121,36 @@
         @Html.PagedListPager(Model, page => Url.Action("TicketView", new { page }))
     </div>
 </div>
-@*@section s{
-        <script>
-            $(document).ready(function () {
-                alert("s");
+@section s{
+
+    <script>
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.myHub1;
+            // Create a function that the hub can call back to display messages.
+            chat.client.updateNotificationBar = function () {
+                // Add the message to the page.
+                alert("notify to all clients");
+            };
+            chat.client.update = function () {
+                alert('تیکت جدید');
+            };
+            // Get the user name and store it to prepend to messages.
+
+            // Set initial focus to message input box.
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                console.log("connection established");
+                // Call the Send method on the hub.
+                //$("#alertBtn").click(function () {
+                //    chat.server.send();
+                //});
             });
-        </script>
-    }*@
+
+        });
+                        // This optional function html-encodes messages for display in the page.
+
+    </script>
+}
 

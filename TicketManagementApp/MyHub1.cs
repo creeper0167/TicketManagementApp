@@ -19,5 +19,10 @@ namespace TicketManagementApp
         {
             Clients.All.updateNotificationBar();
         }
+
+        public void Notify()
+        {
+            Clients.All.update();
+        }
     }
 }

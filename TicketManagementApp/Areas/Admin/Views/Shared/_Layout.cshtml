@@ -41,6 +41,32 @@
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     @RenderSection("scripts")
+    <script>
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.myHub1;
+            // Create a function that the hub can call back to display messages.
+            chat.client.updateNotificationBar = function () {
+                // Add the message to the page.
+                alert("notify to all clients");
+            };
+            // Get the user name and store it to prepend to messages.
+
+            // Set initial focus to message input box.
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                console.log("connection established");
+                // Call the Send method on the hub.
+                //$("#alertBtn").click(function () {
+                //    chat.server.send();
+                //});
+            });
+
+        });
+        // This optional function html-encodes messages for display in the page.
+
+    </script>
 </body>
 </html>
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -194,6 +195,17 @@ namespace TicketManagementApp.Controllers
             }
             return RedirectToAction("Index");
             //return View(ticket1);
+        }
+
+
+        [HttpPost]
+        public JsonResult CreatePostAjax(Ticket ticket)
+        {
+            if(ModelState.IsValid)
+            {
+                return Json(ticket);
+            }
+            return Json(null);
         }
     }
 }
