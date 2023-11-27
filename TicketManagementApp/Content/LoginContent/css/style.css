@@ -1,5 +1,11 @@
 /*@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");*/
+
+@font-face {
+    font-family: 'yekan';
+    src: url('../fonts/yekan.ttf') format('truetype');
+}
 .login-block{
+    font-family: yekan;
     background: #DE6262;  /* fallback for old browsers */
 background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to bottom, #FFB88C, #DE6262); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */

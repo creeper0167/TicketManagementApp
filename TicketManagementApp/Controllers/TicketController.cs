@@ -40,7 +40,7 @@ namespace TicketManagementApp.Controllers
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
             int pageNumebr = (page ?? 1);
 
-            return View(_ticketRepo.GetAllTickets().ToList().ToPagedList(pageNumebr, 10));
+            return View(_ticketRepo.GetAllTickets().OrderByDescending(i=>i.TicketID).ToList().ToPagedList(pageNumebr, 5));
         }
 
         [HttpPost]

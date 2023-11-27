@@ -17,11 +17,13 @@ namespace TicketManagementApp.Areas.Admin.Controllers
     {
         private ITicketRepo ticketRepository;
         private IAccountRepo accountRepository;
+        private IMessageRepository emailService;
 
         public TicketsController()
         {
             ticketRepository = new TicketService();
             accountRepository = new AccountService();
+            
         }
         // GET: Admin/Tickets
         public ActionResult Index()
@@ -132,7 +134,14 @@ namespace TicketManagementApp.Areas.Admin.Controllers
             ticketRepository.Save();
             return RedirectToAction("Index");
         }
-
+        //test
+        public ActionResult SendTestEmail()
+        {
+            emailService = new EmailService("test","تیکت ثبت شده است", "ticketing@kavehlogistics.com");
+            emailService.Send();
+            return RedirectToAction("Index");
+        }
+        //test
         protected override void Dispose(bool disposing)
         {
             if (disposing)

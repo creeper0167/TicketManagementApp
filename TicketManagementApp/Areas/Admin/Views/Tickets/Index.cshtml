@@ -50,7 +50,7 @@
     }
 
 </table>
-
+@Html.ActionLink("ارسال ایمیل تست", "SendTestEmail")
 <div dir="ltr"><button id="alertBtn" class="btn btn-danger">Click me!</button></div>
 
 
@@ -72,9 +72,9 @@
             //    alert("notify to all clients");
             //};
             // Get the user name and store it to prepend to messages.
-           
+
             // Set initial focus to message input box.
-            
+
             // Start the connection.
             $.connection.hub.start().done(function () {
 
@@ -85,7 +85,7 @@
             });
 
         });
-        // This optional function html-encodes messages for display in the page.
+            // This optional function html-encodes messages for display in the page.
 
     </script>
 }

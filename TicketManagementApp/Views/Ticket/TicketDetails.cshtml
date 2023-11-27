@@ -47,9 +47,12 @@
                             @date
                         </td>
                         <td>
-                            <a href="~/TicketAttachments/@Model.TicketAttachment">
-                                دانلود فایل ضمیمه
-                            </a>
+                            @if (Model.TicketAttachment != null)
+                            {
+                                <a href="~/TicketAttachments/@Model.TicketAttachment">
+                                    دانلود فایل ضمیمه
+                                    @*@Html.DisplayFor(modelItem => item.TicketAttachment)*@
+                                </a>}
                         </td>
                         <td>@Html.DisplayFor(model => model.TicketStatus)</td>
                     </tr>

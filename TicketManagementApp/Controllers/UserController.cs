@@ -24,6 +24,7 @@ namespace TicketManagementApp.Controllers
         private TkContext db = new TkContext();
         private ITicketReplyRepo _ticketReplyRepo = new TicketReplyService();
         private ITicketRepo _ticketRepo = new TicketService();
+        private IMessageRepository emailService;
 
         // GET: User
         public ActionResult Index()
@@ -80,6 +81,8 @@ namespace TicketManagementApp.Controllers
 
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
+                emailService = new EmailService("test", "تیکت جدید ثبت شده است. لطفا سیستم تیکت را چک کنید" + "\n" +"متن پیام:" + "\n"+ ticket.TicketDescription, "ticketing@kavehlogistics.com");
+                emailService.Send();
                 return RedirectToAction("Index");
             }
 
