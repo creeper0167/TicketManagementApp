@@ -150,5 +150,14 @@ namespace TicketManagementApp.Areas.Admin.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        //searchbox test
+        [HttpPost]
+        public ActionResult Search(string searchString)
+        {
+            var model = ticketRepository.GetAllTickets().Where(item => item.TrackCode == searchString);
+            return View("Index",model);
+        }
     }
 }

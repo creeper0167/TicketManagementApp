@@ -26,6 +26,20 @@
 <div class="min-vh-100">
     <h1 class="text-center text-primary">لیست تیکت ها</h1>
 
+    @using (Html.BeginForm("Search", "Ticket", FormMethod.Post))
+    {
+        <div class="container-fluid mb-3">
+            <div class="row">
+                <div class="col-2">
+                    <input type="text" placeholder="کدرهگیری" name="searchString" class="form-control" />
+                </div>
+                <div class="col-6">
+                    <input type="submit" value="جست‌وجو" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+
     <table class="table">
         <tr>
             <th>
@@ -38,7 +52,7 @@
                 @*@Html.DisplayNameFor(model => model.TicketSubject)*@ موضوع
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.TicketDescription)*@ شرح تیکت
+                @*@Html.DisplayNameFor(model => model.TicketDescription)*@ ارسال شده از واحد
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.TicketAttachment)*@ فایل ضمیمه
@@ -71,7 +85,7 @@
                     @Html.DisplayFor(modelItem => item.TicketSubject)
                 </td>
                 <td class="w-25 overflow-hidden" style="">
-                    <span class="w-25 overflow-hidden" style="width:10%;">@Html.DisplayFor(modelItem => item.TicketDescription)</span>
+                    <span class="w-25 overflow-hidden" style="width:10%;">@Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)</span>
                 </td>
                 <td>
                     @if (item.TicketAttachment != null)
@@ -118,7 +132,7 @@
     </table>
     <div id="pager">
         @*<p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>*@
-        @Html.PagedListPager(Model, page => Url.Action("TicketView", new { page = page }),new PagedListRenderOptions { LinkToFirstPageFormat = "<< ابتدا", LinkToPreviousPageFormat = "< صفحه قبلی", LinkToNextPageFormat = "صفحه بعدی>", LinkToLastPageFormat = "آخرین >>" })
+        @Html.PagedListPager(Model, page => Url.Action("TicketView", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< ابتدا", LinkToPreviousPageFormat = "< صفحه قبلی", LinkToNextPageFormat = "صفحه بعدی>", LinkToLastPageFormat = "آخرین >>" })
     </div>
 </div>
 @section s{

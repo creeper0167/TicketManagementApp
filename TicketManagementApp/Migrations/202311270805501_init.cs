@@ -19,8 +19,8 @@
                         Role_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.AccountID)
-                .ForeignKey("dbo.Roles", t => t.Role_Id)
                 .ForeignKey("dbo.UserGroups", t => t.UserGroupID, cascadeDelete: true)
+                .ForeignKey("dbo.Roles", t => t.Role_Id)
                 .Index(t => t.UserGroupID)
                 .Index(t => t.Role_Id);
             
@@ -45,6 +45,7 @@
                 c => new
                     {
                         TicketID = c.Int(nullable: false, identity: true),
+                        UserGroupID = c.Int(),
                         TicketGroupID = c.Int(nullable: false),
                         AccountID = c.Int(nullable: false),
                         TicketSubject = c.String(),
@@ -52,15 +53,14 @@
                         TicketAttachment = c.String(),
                         TicketStatus = c.String(),
                         TicketDate = c.DateTime(nullable: false),
-                        UserGroup_UserGroupID = c.Int(),
                     })
                 .PrimaryKey(t => t.TicketID)
                 .ForeignKey("dbo.Accounts", t => t.AccountID, cascadeDelete: true)
                 .ForeignKey("dbo.TicketGroups", t => t.TicketGroupID, cascadeDelete: true)
-                .ForeignKey("dbo.UserGroups", t => t.UserGroup_UserGroupID)
+                .ForeignKey("dbo.UserGroups", t => t.UserGroupID)
+                .Index(t => t.UserGroupID)
                 .Index(t => t.TicketGroupID)
-                .Index(t => t.AccountID)
-                .Index(t => t.UserGroup_UserGroupID);
+                .Index(t => t.AccountID);
             
             CreateTable(
                 "dbo.TicketGroups",
@@ -72,6 +72,15 @@
                 .PrimaryKey(t => t.TicketGroupID);
             
             CreateTable(
+                "dbo.UserGroups",
+                c => new
+                    {
+                        UserGroupID = c.Int(nullable: false, identity: true),
+                        UserGroupTitle = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.UserGroupID);
+            
+            CreateTable(
                 "dbo.Roles",
                 c => new
                     {
@@ -81,35 +90,26 @@
                     })
                 .PrimaryKey(t => t.Id);
             
-            CreateTable(
-                "dbo.UserGroups",
-                c => new
-                    {
-                        UserGroupID = c.Int(nullable: false, identity: true),
-                        UserGroupTitle = c.String(nullable: false),
-                    })
-                .PrimaryKey(t => t.UserGroupID);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Tickets", "UserGroup_UserGroupID", "dbo.UserGroups");
-            DropForeignKey("dbo.Accounts", "UserGroupID", "dbo.UserGroups");
             DropForeignKey("dbo.Accounts", "Role_Id", "dbo.Roles");
+            DropForeignKey("dbo.Tickets", "UserGroupID", "dbo.UserGroups");
+            DropForeignKey("dbo.Accounts", "UserGroupID", "dbo.UserGroups");
             DropForeignKey("dbo.TicketReplies", "TicketID", "dbo.Tickets");
             DropForeignKey("dbo.Tickets", "TicketGroupID", "dbo.TicketGroups");
             DropForeignKey("dbo.Tickets", "AccountID", "dbo.Accounts");
             DropForeignKey("dbo.TicketReplies", "AccountID", "dbo.Accounts");
-            DropIndex("dbo.Tickets", new[] { "UserGroup_UserGroupID" });
             DropIndex("dbo.Tickets", new[] { "AccountID" });
             DropIndex("dbo.Tickets", new[] { "TicketGroupID" });
+            DropIndex("dbo.Tickets", new[] { "UserGroupID" });
             DropIndex("dbo.TicketReplies", new[] { "AccountID" });
             DropIndex("dbo.TicketReplies", new[] { "TicketID" });
             DropIndex("dbo.Accounts", new[] { "Role_Id" });
             DropIndex("dbo.Accounts", new[] { "UserGroupID" });
-            DropTable("dbo.UserGroups");
             DropTable("dbo.Roles");
+            DropTable("dbo.UserGroups");
             DropTable("dbo.TicketGroups");
             DropTable("dbo.Tickets");
             DropTable("dbo.TicketReplies");

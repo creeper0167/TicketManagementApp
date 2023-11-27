@@ -13,7 +13,7 @@ namespace TicketManagementApp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202311230809530_init"; }
+            get { return "202311270805501_init"; }
         }
         
         string IMigrationMetadata.Source

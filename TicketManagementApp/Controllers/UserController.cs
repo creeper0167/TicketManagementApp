@@ -30,7 +30,8 @@ namespace TicketManagementApp.Controllers
         public ActionResult Index()
         {
             var tickets = db.Tickets.Include(t => t.Account).Include(t => t.TicketGroup);
-            return View(tickets.ToList());
+            try { return View(tickets.ToList()); }
+            catch { return View(); }
         }
 
         // GET: User/Details/5
@@ -62,7 +63,7 @@ namespace TicketManagementApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "TicketID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload)
+        public async Task<ActionResult> Create([Bind(Include = "TicketID,UserGroupID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload)
         {
             var result = new {isValid = true};
             var notValidResult = new { isValid = false };
@@ -72,6 +73,7 @@ namespace TicketManagementApp.Controllers
                 ticket.TicketStatus = "در انتظار بررسی";
                 ticket.TicketDate = DateTime.Now;
                 ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
+                ticket.TrackCode = GenerateTrackingCode();
 
                 if (TicketAttachmentUpload != null)
                 {
@@ -81,7 +83,7 @@ namespace TicketManagementApp.Controllers
 
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                emailService = new EmailService("test", "تیکت جدید ثبت شده است. لطفا سیستم تیکت را چک کنید" + "\n" +"متن پیام:" + "\n"+ ticket.TicketDescription, "ticketing@kavehlogistics.com");
+                emailService = new EmailService("test", "تیکت جدید ثبت شده است. لطفا سیستم تیکت را چک کنید" + "\n" +"متن پیام:" + "\n"+ ticket.TicketDescription + "کد پیگیری:" + ticket.TrackCode, "ticketing@kavehlogistics.com");
                 emailService.Send();
                 return RedirectToAction("Index");
             }
@@ -210,5 +212,13 @@ namespace TicketManagementApp.Controllers
             }
             return Json(null);
         }
+
+        #region function
+        private string GenerateTrackingCode()
+        {
+            string code = "#" + Guid.NewGuid().ToString();
+            return code;
+        }
+        #endregion
     }
 }

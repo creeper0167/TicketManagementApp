@@ -32,6 +32,7 @@
                     <tr>
                         <th scope="col">ارسال کننده تیکت</th>
                         <th scope="col">تاریخ ایجاد</th>
+                        <th scope="col">کد رهگیری</th>
                         <th scope="col">فایل ضمیمه</th>
                         <th scope="col">وضعیت تیکت</th>
                     </tr>
@@ -45,6 +46,7 @@
                             }
                             @date
                         </td>
+                        <td>@Html.DisplayFor(model=>model.TrackCode)</td>
                         <td>
                             <a href="~/TicketAttachments/@Model.TicketAttachment">
                                 دانلود فایل ضمیمه

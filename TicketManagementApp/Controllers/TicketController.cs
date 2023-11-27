@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using Microsoft.Ajax.Utilities;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,9 +39,9 @@ namespace TicketManagementApp.Controllers
         public ActionResult TicketView(int? page)
         {
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
-            int pageNumebr = (page ?? 1);
+            int pageNumber = (page ?? 1);
 
-            return View(_ticketRepo.GetAllTickets().OrderByDescending(i=>i.TicketID).ToList().ToPagedList(pageNumebr, 5));
+            return View(_ticketRepo.GetAllTickets().OrderByDescending(i=>i.TicketID).ToList().ToPagedList(pageNumber, 5));
         }
 
         [HttpPost]
@@ -132,6 +133,18 @@ namespace TicketManagementApp.Controllers
             _ticketRepo.Save();
             return RedirectToAction("TicketView");
 
+        }
+
+        [HttpPost]
+        public ActionResult Search(string searchString)
+        {
+            if ((searchString.IsNullOrWhiteSpace()))
+            {
+                return RedirectToAction("TicketView");
+            }
+            int pageNumber = 1;
+            var model = _ticketRepo.GetAllTickets().Where(item => item.TrackCode == searchString).ToPagedList(pageNumber, 5);
+            return View("TicketView", model);
         }
     }
 }

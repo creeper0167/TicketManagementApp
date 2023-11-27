@@ -24,10 +24,13 @@
             @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ نوع تیکت
         </th>
         <th>
+            @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ کد پیگیری
+        </th>
+        <th>
             @*@Html.DisplayNameFor(model => model.TicketSubject)*@ موضوع تیکت
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.TicketDescription)*@ شرح تیکت
+            @*@Html.DisplayNameFor(model => model.TicketDescription)*@ ارسال شده از واحد
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.TicketAttachment)*@ فایل ضمیمه
@@ -40,7 +43,7 @@
         </th>
         <th>عملیات</th>
     </tr>
-
+    
 @foreach (var item in Model.Where(e => e.AccountID == accountID).OrderByDescending(e=>e.TicketID).ToList()) {
     {
         counter++;
@@ -53,10 +56,13 @@
             @Html.DisplayFor(modelItem => item.TicketGroup.TicketGroupTitle)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.TrackCode)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.TicketSubject)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TicketDescription)
+            @Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)
         </td>
         <td>
             @if (item.TicketAttachment != null)

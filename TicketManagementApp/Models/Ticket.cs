@@ -10,6 +10,8 @@ namespace TicketManagementApp.Models
     {
         [Key]
         public int TicketID { get; set; }
+        [Display(Name ="واحد")]
+        public int? UserGroupID { get; set; }
         [Display(Name ="نوع تیکت")]
         public int TicketGroupID { get; set; }
         [Display(Name = "کاربر")]
@@ -27,6 +29,8 @@ namespace TicketManagementApp.Models
         public string TicketStatus { get; set; }
         [Display(Name ="تاریخ ایجاد تیکت")]
         public DateTime TicketDate { get; set; }
+        [Display(Name ="کد رهگیری")]
+        public string TrackCode { get; set; }
 
         public Ticket()
         {
@@ -35,5 +39,6 @@ namespace TicketManagementApp.Models
         public virtual TicketGroup TicketGroup { get; set; }
         public virtual Accounts Account { get; set; }
         public virtual List<TicketReply> TicketReply { get; set; }
+        public virtual UserGroup UserGroup { get; set; }
     }
 }
