@@ -64,7 +64,19 @@
 
 </table>
 @Html.ActionLink("ارسال ایمیل تست", "SendTestEmail")
-<div dir="ltr"><button id="alertBtn" class="btn btn-danger">Click me!</button></div>
+<div dir="ltr">
+    <button id="alertBtn" class="btn btn-danger">
+    <span id="loading-bar"></span>Click me!
+    </button>
+</div>
+
+<button class="btn btn-primary" type="button" disabled>
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+</button>
+<button class="btn btn-primary" type="button" disabled>
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Loading...
+</button>
 
 
 @section scripts {
@@ -92,13 +104,18 @@
             $.connection.hub.start().done(function () {
 
                 // Call the Send method on the hub.
-                $("#alertBtn").click(function () {
-                    chat.server.notify();
-                });
+                //$("#alertBtn").click(function () {
+                //    chat.server.notify();
+                //});
+            });
+
+            $("#alertBtn").click(function () {
+                document.getElementById("loading-bar").className = "spinner-border spinner-border-sm";
+                //document.getElementById("alertBtn").getElementById("loading-bar") = "spinner-border";
             });
 
         });
-                // This optional function html-encodes messages for display in the page.
+                    // This optional function html-encodes messages for display in the page.
 
     </script>
 }

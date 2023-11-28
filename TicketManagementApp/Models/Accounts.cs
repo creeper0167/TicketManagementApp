@@ -13,6 +13,9 @@ namespace TicketManagementApp.Models
         [Display(Name ="منطقه گروه")]
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
         public int UserGroupID { get; set; }
+        [Display(Name ="دپارتمان")]
+        [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
+        public int DepartmentId { get; set; }
         [Display(Name ="نام کاربری")]
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
         public string Username { get; set; }
@@ -33,5 +36,6 @@ namespace TicketManagementApp.Models
         public virtual List<Ticket> Ticket { get; set; }
         public virtual List<TicketReply> Replies { get; set; }
         public virtual Role Role { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

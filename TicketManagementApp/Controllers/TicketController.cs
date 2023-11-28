@@ -39,6 +39,8 @@ namespace TicketManagementApp.Controllers
         public ActionResult TicketView(int? page)
         {
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
+            int departmentId = Int32.Parse(Session["DepartmentId"].ToString());
+            ViewBag.UnreadCounterValue = _ticketRepo.GetAllTickets().Where(i => i.TicketStatus == "در انتظار بررسی" && i.DepartmentId == departmentId).Count();
             int pageNumber = (page ?? 1);
 
             return View(_ticketRepo.GetAllTickets().OrderByDescending(i=>i.TicketID).ToList().ToPagedList(pageNumber, 5));

@@ -38,9 +38,11 @@ namespace TicketManagementApp.Controllers
                         Session["FullName"] = obj.FullName.ToString();
                         Session["RoleID"] = obj.Role.RoleId.ToString();
                         Session["RoleName"] = obj.Role.RoleName.ToString();
-                        //FormsAuthentication.Authenticate()
-                        
-                        return RedirectToAction("UserDashBoard");
+                        Session["DepartmentId"] = obj.DepartmentId.ToString();
+                        Session["UserGroupId"] = obj.UserGroupID.ToString();
+                    //FormsAuthentication.Authenticate()
+
+                    return RedirectToAction("UserDashBoard");
                     //return View(result);
                     }
             }

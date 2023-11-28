@@ -1,4 +1,8 @@
 ﻿@font-face {
+    font-family: 'yekan';
+    src: url('fonts/yekan.ttf') format('truetype');
+}
+@font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;

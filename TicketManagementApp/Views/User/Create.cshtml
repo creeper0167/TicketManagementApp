@@ -3,9 +3,10 @@
 @{
     //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
     Layout = "~/Views/Shared/_DefaultLayout.cshtml";
-
+    int userGroupId = Int32.Parse(Session["UserGroupId"].ToString());
     //Layout = "~/Views/Shared/_DefPage1.cshtml";
     ViewBag.Title = "Create";
+
 }
 
 <!--<head>
@@ -42,69 +43,79 @@
 @*<script src="~/Scripts/modernizr-2.6.2.js"></script>*@
 <!--</head>-->
 
+<div class="container">
+        @using (Html.BeginForm("Create", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+        {
+            @Html.AntiForgeryToken()
 
-@using (Html.BeginForm("Create", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="">
-        <h4>تیکت جدید</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.TicketSubject, htmlAttributes: new { @class = "control-label" })
-                <div class="">
-                    @Html.EditorFor(model => model.TicketSubject, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TicketSubject, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.TicketGroupID, "نوع تیکت", htmlAttributes: new { @class = "control-label" })
-                <div class="">
-                    @Html.DropDownList("TicketGroupID", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.TicketGroupID, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.Account.UserGroupID, "واحد", htmlAttributes: new { @class = "control-label" })
-                <div class="">
-                    @Html.DropDownList("UserGroupID", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Account.UserGroupID, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.TicketDescription, htmlAttributes: new { @class = "control-label" })
+            
+    <div class="card">
+                <div class="card-header bg-success"><h4>تیکت جدید</h4></div>
+                @*<hr />*@<div class="card-body">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.TicketSubject, htmlAttributes: new { @class = "control-label" })
             <div class="">
-                @Html.EditorFor(model => model.TicketDescription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TicketDescription, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.TicketSubject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TicketSubject, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group mx-sm-3">
-            @Html.LabelFor(model => model.TicketAttachment, htmlAttributes: new { @class = "control-label" })
-
-            @*@Html.EditorFor(model => model.TicketAttachment, new { htmlAttributes = new { @class = "form-control" } })*@
-            @Html.ValidationMessageFor(model => model.TicketAttachment, "", new { @class = "text-danger" })
-            <input class="form-control" type="file" name="TicketAttachmentUpload" />
-
+        <div class="form-group col-md-4">
+            @Html.LabelFor(model => model.TicketGroupID, "نوع تیکت", htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.DropDownList("TicketGroupID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TicketGroupID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label>ارسال به دپارتمان</label>
+            @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
         </div>
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.TicketStatus, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TicketStatus, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TicketStatus, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
-        <div class="form-group">
-            <input id="ticketSubmit" @*onclick="onSuccess()"*@ class="btn btn-danger" type="submit" value="ارسال تیکت" />
+        <div class="form-group col-md-4 hide">
+            @Html.LabelFor(model => model.Account.UserGroupID, "واحد", htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @*@Html.EditorFor(model=>model.UserGroupID, new { htmlAttributes = new { @class = "form-control", @value = userGroupId } })*@
+                @*@Html.DropDownList("UserGroupID", null, htmlAttributes: new { @class = "form-control" })*@
+                @*@Html.ValidationMessageFor(model => model.Account.UserGroupID, "", new { @class = "text-danger" })*@
+                <input name="usergroup" type="number" value="@userGroupId"/>
+            </div>
         </div>
     </div>
-}
+    <div class="form-group">
+        @Html.LabelFor(model => model.TicketDescription, htmlAttributes: new { @class = "control-label" })
+        <div class="">
+            @Html.EditorFor(model => model.TicketDescription, new { htmlAttributes = new { @class = "form-control", @rows = 8 } })
+            @Html.ValidationMessageFor(model => model.TicketDescription, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group w-25">
+        @Html.LabelFor(model => model.TicketAttachment, htmlAttributes: new { @class = "control-label" })
+
+        @*@Html.EditorFor(model => model.TicketAttachment, new { htmlAttributes = new { @class = "form-control" } })*@
+        @Html.ValidationMessageFor(model => model.TicketAttachment, "", new { @class = "text-danger" })
+        <input class="form-control" type="file" name="TicketAttachmentUpload" />
+
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.TicketStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TicketStatus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TicketStatus, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+</div>
+                <div class="form-group card-footer">
+                    <input id="ticketSubmit" @*onclick="onSuccess()"*@ class="btn btn-danger" type="submit" value="ارسال تیکت" />
+                </div>
+            
+    </div>
+        }
+</div>
 
 @section s{
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
@@ -118,11 +129,20 @@
         });
         //onReady
         $(function () {
+
+            $("#test").click(function () {
+                document.getElementById("load-bar").className = "spinner-border spinner-border-sm";
+                document.getElementById("load-bar").innerHTML = "<p>spinner-border spinner-border-sm</p>";
+                //document.getElementById("alertBtn").getElementById("loading-bar") = "spinner-border";
+            });
+            
+
             $("#myForm").submit(function (event) {
                 event.preventDefault();
 
                 var form = document.getElementById("myForm");
                 var formData = new FormData(form);
+                //document.getElementById("load-bar").className = "";
                 $.ajax({
                     url: "/User/Create",
                     method: "POST",

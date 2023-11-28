@@ -55,6 +55,7 @@ namespace TicketManagementApp.Controllers
             ViewBag.AccountID = new SelectList(db.Accounts, "AccountID", "Username");
             ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle");
             ViewBag.UserGroupID = new SelectList(db.UserGroups, "UserGroupID", "UserGroupTitle");
+            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "DepartmentTitle");
             return View();
         }
 
@@ -63,7 +64,7 @@ namespace TicketManagementApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "TicketID,UserGroupID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload)
+        public async Task<ActionResult> Create([Bind(Include = "TicketID,UserGroupID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate,DepartmentId")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload, int usergroup)
         {
             var result = new {isValid = true};
             var notValidResult = new { isValid = false };
@@ -73,6 +74,7 @@ namespace TicketManagementApp.Controllers
                 ticket.TicketStatus = "در انتظار بررسی";
                 ticket.TicketDate = DateTime.Now;
                 ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
+                ticket.UserGroupID = usergroup;
                 ticket.TrackCode = GenerateTrackingCode();
 
                 if (TicketAttachmentUpload != null)

@@ -14,7 +14,7 @@ namespace TicketManagementApp.Areas.Admin.Controllers
     public class AccountsController : Controller
     {
         private TkContext db = new TkContext();
-
+        private PasswordManagementService ps;
         // GET: Admin/Accounts
         public ActionResult Index()
         {
@@ -57,6 +57,7 @@ namespace TicketManagementApp.Areas.Admin.Controllers
                 role.Id = 2;
                 role.RoleName = "user";
                 accounts.Role = role;
+                
                 db.Accounts.Add(accounts);
                 db.SaveChanges();
                 return RedirectToAction("Index");

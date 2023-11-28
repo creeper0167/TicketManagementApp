@@ -8,6 +8,7 @@
     Layout = "~/Views/Shared/_DefPage1.cshtml";
     PersianCalendar persianCalendar = new PersianCalendar();
     int counter = 0;
+    int departmentId = Int32.Parse(Session["DepartmentId"].ToString());
 }
 
 @*<!DOCTYPE html>*@
@@ -23,9 +24,7 @@
         <script src="~/Scripts/modernizr-2.6.2.js"></script>
     </head>*@
 
-<div class="min-vh-100">
-    <h1 class="text-center text-primary">لیست تیکت ها</h1>
-
+<div class="min-vh-100 container-fluid">
     @using (Html.BeginForm("Search", "Ticket", FormMethod.Post))
     {
         <div class="container-fluid mb-3">
@@ -39,9 +38,12 @@
             </div>
         </div>
     }
+<div class="card">
+    <div class="card-header bg-info"><h1 class="text-center">لیست تیکت ها</h1></div>
+
 
     <table class="table">
-        <tr>
+        <tr class="bg-light">
             <th>
                 @*@Html.DisplayNameFor(model => model.TicketID)*@ ردیف
             </th>
@@ -58,7 +60,7 @@
                 @*@Html.DisplayNameFor(model => model.TicketAttachment)*@ فایل ضمیمه
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.TicketStatus)*@ وضعیت تیکت
+                @*@Html.DisplayNameFor(model => model.TicketStatus)*@ آخرین وضعیت
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.TicketDate)*@ تاریخ تیکت
@@ -68,12 +70,12 @@
                 </th>*@
             <th>عملیات</th>
         </tr>
-
-        @foreach (var item in Model.OrderByDescending(i => i.TicketID).ToList())
-        {
+      
+            @foreach (var item in Model.Where(i => i.DepartmentId == departmentId).OrderByDescending(i => i.TicketID).ToList())
             {
-                counter++;
-            }
+                {
+                    counter++;
+                }
             <tr>
                 <td>
                     @*@Html.DisplayFor(modelItem => item.TicketID)*@ @counter
@@ -84,8 +86,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.TicketSubject)
                 </td>
-                <td class="w-25 overflow-hidden" style="">
-                    <span class="w-25 overflow-hidden" style="width:10%;">@Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)</span>
+                <td class="" style="">
+                    <span class="overflow-hidden">@Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)</span>
                 </td>
                 <td>
                     @if (item.TicketAttachment != null)
@@ -127,9 +129,10 @@
                     @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
                 </td>
             </tr>
-        }
+                        }
 
     </table>
+</div>
     <div id="pager">
         @*<p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>*@
         @Html.PagedListPager(Model, page => Url.Action("TicketView", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< ابتدا", LinkToPreviousPageFormat = "< صفحه قبلی", LinkToNextPageFormat = "صفحه بعدی>", LinkToLastPageFormat = "آخرین >>" })

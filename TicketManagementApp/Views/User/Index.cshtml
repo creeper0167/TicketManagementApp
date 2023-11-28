@@ -15,84 +15,84 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>*@
-<table class="table">
-    <tr>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Account.Username)*@ ردیف
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ نوع تیکت
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ کد پیگیری
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.TicketSubject)*@ موضوع تیکت
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.TicketDescription)*@ ارسال شده از واحد
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.TicketAttachment)*@ فایل ضمیمه
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.TicketStatus)*@ وضعیت تیکت
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.TicketDate)*@ تاریخ
-        </th>
-        <th>عملیات</th>
-    </tr>
-    
-@foreach (var item in Model.Where(e => e.AccountID == accountID).OrderByDescending(e=>e.TicketID).ToList()) {
-    {
-        counter++;
-    }
-    <tr>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.Account.Username)*@ @counter
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketGroup.TicketGroupTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TrackCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketSubject)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)
-        </td>
-        <td>
-            @if (item.TicketAttachment != null)
-            {
-            <a href="~/TicketAttachments/@item.TicketAttachment">
-                دانلود فایل
-                @*@Html.DisplayFor(modelItem => item.TicketAttachment)*@
-            </a>}
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketStatus)
-        </td>
-        <td>
-            @{
-                string date = persianCalendar.GetYear(item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(item.TicketDate).ToString();
-            }
-            @date
-        </td>
-        <td>
-        <td>
-            @*@Html.ActionLink("پاسخ", "TicketReply", new { id = item.TicketID }) |*@
-            @Html.ActionLink("جزئیات", "Details", new { id = item.TicketID }, htmlAttributes: new { @class = "text-info" }) @*|*@
-            @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
-        </td>
-        @*@Html.ActionLink("Edit", "Edit", new { id=item.TicketID }) |
-        @Html.ActionLink("Details", "Details", new { id=item.TicketID }) |
-        @Html.ActionLink("Delete", "Delete", new { id=item.TicketID })*@
-        </td>
-        
-    </tr>
-}
+<div class="card">
+    <div class="card-header bg-info"><h1 class="text-center">لیست تیکت ها</h1></div>
+    <table class="table">
+        <tr class="bg-light">
+            <th>
+                @*@Html.DisplayNameFor(model => model.Account.Username)*@ ردیف
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ نوع تیکت
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ کد پیگیری
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketSubject)*@ موضوع تیکت
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketDescription)*@ ارسال شده از واحد
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketAttachment)*@ فایل ضمیمه
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketStatus)*@ وضعیت تیکت
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TicketDate)*@ تاریخ
+            </th>
+            <th>عملیات</th>
+        </tr>
 
-</table>
+        @foreach (var item in Model.Where(e => e.AccountID == accountID).OrderByDescending(e => e.TicketID).ToList())
+        {
+            {
+                counter++;
+            }
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Account.Username)*@ @counter
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketGroup.TicketGroupTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrackCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketSubject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)
+                </td>
+                <td>
+                    @if (item.TicketAttachment != null)
+                    {
+                        <a href="~/TicketAttachments/@item.TicketAttachment">
+                            دانلود فایل
+                            @*@Html.DisplayFor(modelItem => item.TicketAttachment)*@
+                        </a>}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus)
+                </td>
+                <td>
+                    @{
+                        string date = persianCalendar.GetYear(item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(item.TicketDate).ToString();
+                    }
+                    @date
+                </td>
+                
+                <td>
+                    @*@Html.ActionLink("پاسخ", "TicketReply", new { id = item.TicketID }) |*@
+                    @Html.ActionLink("جزئیات", "Details", new { id = item.TicketID }, htmlAttributes: new { @class = "text-info" }) @*|*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>

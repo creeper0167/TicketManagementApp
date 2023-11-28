@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -31,7 +32,8 @@ namespace TicketManagementApp.Models
         public DateTime TicketDate { get; set; }
         [Display(Name ="کد رهگیری")]
         public string TrackCode { get; set; }
-
+        [Display(Name ="واحد گیرنده")]
+        public int? DepartmentId { get; set; }
         public Ticket()
         {
             
@@ -40,5 +42,6 @@ namespace TicketManagementApp.Models
         public virtual Accounts Account { get; set; }
         public virtual List<TicketReply> TicketReply { get; set; }
         public virtual UserGroup UserGroup { get; set; }
+        public virtual Department Department { get; set; }
     }
 }
