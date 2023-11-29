@@ -43,7 +43,7 @@ namespace TicketManagementApp.Controllers
             ViewBag.UnreadCounterValue = _ticketRepo.GetAllTickets().Where(i => i.TicketStatus == "در انتظار بررسی" && i.DepartmentId == departmentId).Count();
             int pageNumber = (page ?? 1);
 
-            return View(_ticketRepo.GetAllTickets().OrderByDescending(i=>i.TicketID).ToList().ToPagedList(pageNumber, 5));
+            return View(_ticketRepo.GetAllTickets().OrderByDescending(i=>i.TicketID).ToList().ToPagedList(pageNumber, 15));
         }
 
         [HttpPost]
@@ -145,7 +145,7 @@ namespace TicketManagementApp.Controllers
                 return RedirectToAction("TicketView");
             }
             int pageNumber = 1;
-            var model = _ticketRepo.GetAllTickets().Where(item => item.TrackCode == searchString).ToPagedList(pageNumber, 5);
+            var model = _ticketRepo.GetAllTickets().Where(item => item.TrackCode == searchString).ToPagedList(pageNumber, 15);
             return View("TicketView", model);
         }
     }

@@ -44,80 +44,90 @@
 <!--</head>-->
 
 <div class="container">
-        @using (Html.BeginForm("Create", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
-        {
-            @Html.AntiForgeryToken()
+    @using (Html.BeginForm("Create", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+    {
+        @Html.AntiForgeryToken()
 
-            
-    <div class="card">
-                <div class="card-header bg-success"><h4>تیکت جدید</h4></div>
-                @*<hr />*@<div class="card-body">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            @Html.LabelFor(model => model.TicketSubject, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.TicketSubject, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TicketSubject, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            @Html.LabelFor(model => model.TicketGroupID, "نوع تیکت", htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.DropDownList("TicketGroupID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TicketGroupID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <label>ارسال به دپارتمان</label>
-            @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
-        </div>
 
-        <div class="form-group col-md-4 hide">
-            @Html.LabelFor(model => model.Account.UserGroupID, "واحد", htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @*@Html.EditorFor(model=>model.UserGroupID, new { htmlAttributes = new { @class = "form-control", @value = userGroupId } })*@
-                @*@Html.DropDownList("UserGroupID", null, htmlAttributes: new { @class = "form-control" })*@
-                @*@Html.ValidationMessageFor(model => model.Account.UserGroupID, "", new { @class = "text-danger" })*@
-                <input name="usergroup" type="number" value="@userGroupId"/>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.TicketDescription, htmlAttributes: new { @class = "control-label" })
-        <div class="">
-            @Html.EditorFor(model => model.TicketDescription, new { htmlAttributes = new { @class = "form-control", @rows = 8 } })
-            @Html.ValidationMessageFor(model => model.TicketDescription, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        <div class="card">
+            <div class="card-header bg-success"><h4>تیکت جدید</h4></div>
+            @*<hr />*@<div class="card-body">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TicketSubject, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.EditorFor(model => model.TicketSubject, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.TicketSubject, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.TicketGroupID, "نوع تیکت", htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.DropDownList("TicketGroupID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TicketGroupID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>ارسال به دپارتمان</label>
+                        
+                        @*@Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })*@
+                        <select name="departmentSelectList" class="form-control form-select">
+                            <option value="softwareDepartment">
+                                نرم افزار و IT
+                            </option>
+                            <option value="hardwareDepartment">
+                                سخت افزار و شبکه
+                            </option>
+                        </select>
+                    </div>
 
-    <div class="form-group w-25">
-        @Html.LabelFor(model => model.TicketAttachment, htmlAttributes: new { @class = "control-label" })
-
-        @*@Html.EditorFor(model => model.TicketAttachment, new { htmlAttributes = new { @class = "form-control" } })*@
-        @Html.ValidationMessageFor(model => model.TicketAttachment, "", new { @class = "text-danger" })
-        <input class="form-control" type="file" name="TicketAttachmentUpload" />
-
-    </div>
-
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.TicketStatus, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TicketStatus, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TicketStatus, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-</div>
-                <div class="form-group card-footer">
-                    <input id="ticketSubmit" @*onclick="onSuccess()"*@ class="btn btn-danger" type="submit" value="ارسال تیکت" />
+                    <div class="form-group col-md-4 hide">
+                        @Html.LabelFor(model => model.Account.UserGroupID, "واحد", htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @*@Html.EditorFor(model=>model.UserGroupID, new { htmlAttributes = new { @class = "form-control", @value = userGroupId } })*@
+                            @*@Html.DropDownList("UserGroupID", null, htmlAttributes: new { @class = "form-control" })*@
+                            @*@Html.ValidationMessageFor(model => model.Account.UserGroupID, "", new { @class = "text-danger" })*@
+                            <input name="usergroup" type="number" value="@userGroupId" />
+                        </div>
+                    </div>
                 </div>
-            
-    </div>
-        }
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TicketDescription, htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.EditorFor(model => model.TicketDescription, new { htmlAttributes = new { @class = "form-control", @rows = 8 } })
+                        @Html.ValidationMessageFor(model => model.TicketDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group w-25">
+                    @Html.LabelFor(model => model.TicketAttachment, htmlAttributes: new { @class = "control-label" })
+
+                    @*@Html.EditorFor(model => model.TicketAttachment, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.TicketAttachment, "", new { @class = "text-danger" })
+                    <input class="form-control" type="file" name="TicketAttachmentUpload" />
+
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.TicketStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.TicketStatus, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.TicketStatus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+            </div>
+            <div class="form-group card-footer">
+                <input id="ticketSubmit" @*onclick="onSuccess()"*@ class="btn btn-danger" type="submit" value="ارسال تیکت" /><span id="sending-text" style="visibility:hidden;"><span id="load-bar" class="spinner-border spinner-border-sm" style="visibility:hidden"></span>در حال ارسال...</span>
+            </div>
+
+        </div>
+    }
 </div>
 
 @section s{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     @*Reference the autogenerated SignalR hub script.*@
     <script src="~/signalr/hubs"></script>
@@ -129,20 +139,23 @@
         });
         //onReady
         $(function () {
-
-            $("#test").click(function () {
-                document.getElementById("load-bar").className = "spinner-border spinner-border-sm";
-                document.getElementById("load-bar").innerHTML = "<p>spinner-border spinner-border-sm</p>";
-                //document.getElementById("alertBtn").getElementById("loading-bar") = "spinner-border";
+                
+            //$("#ticketSubmit").click(function () {
+            //    document.getElementById("load-bar").className = "spinner-border spinner-border-sm";
+            //    //document.getElementById("load-bar").innerHTML = "<p>spinner-border spinner-border-sm</p>";
+            //    //document.getElementById("alertBtn").getElementById("loading-bar") = "spinner-border";
+            //});
+            $("#myFrom").on("submit", function () {
+                alert("The paragraph was clicked.");
             });
-            
 
             $("#myForm").submit(function (event) {
                 event.preventDefault();
 
                 var form = document.getElementById("myForm");
                 var formData = new FormData(form);
-                //document.getElementById("load-bar").className = "";
+                $('#load-bar').css('visibility', 'visible');
+                $('#sending-text').css('visibility', 'visible');
                 $.ajax({
                     url: "/User/Create",
                     method: "POST",
@@ -150,12 +163,16 @@
                     processData: false,
                     contentType: false,
                     success: function (res) {
+                        document.getElementById("load-bar").className = "spinner-border spinner-border-sm";
                         //alert(res.Name);
                         chat.server.notify();
                         Swal.fire({
                             title: "تیکت با موفقیت ثبت شد!",
                             icon: "success"
                         });
+                        $('#load-bar').css('visibility', 'hidden');
+                        $('#sending-text').css('visibility', 'hidden');
+
                         //location.reload(true);
                     },
 
@@ -166,38 +183,38 @@
             });
 
         });
-        //---
+            //---
 
 
 
-        //function onSuccess() {
-        //    //console.log(data);
-        //    //alert(data);
-        //    $.ajax({
-        //        type: 'POST',
-        //        url: '/User/Create',
-        //        contentType: 'application/json; charset=utf-8',
-        //        data: FormData,
-        //        success: function (result) {
-        //            alert("Yeees");
-        //        },
-        //        error: function () {
+            //function onSuccess() {
+            //    //console.log(data);
+            //    //alert(data);
+            //    $.ajax({
+            //        type: 'POST',
+            //        url: '/User/Create',
+            //        contentType: 'application/json; charset=utf-8',
+            //        data: FormData,
+            //        success: function (result) {
+            //            alert("Yeees");
+            //        },
+            //        error: function () {
 
-        //            //$.connection.hub.start().done(function () {
+            //            //$.connection.hub.start().done(function () {
 
-        //            //    // Call the Send method on the hub.
-        //            //    hubConnection.server.send();
+            //            //    // Call the Send method on the hub.
+            //            //    hubConnection.server.send();
 
-        //            //});
-        //            Swal.fire({
-        //                title: "تیکت با موفقیت ثبت شد!",
-        //                icon: "success"
-        //            });
+            //            //});
+            //            Swal.fire({
+            //                title: "تیکت با موفقیت ثبت شد!",
+            //                icon: "success"
+            //            });
 
 
 
-        //        }
-        //    })
-        //}
+            //        }
+            //    })
+            //}
     </script>
 }

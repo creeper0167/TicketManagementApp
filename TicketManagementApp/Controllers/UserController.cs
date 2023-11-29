@@ -64,10 +64,11 @@ namespace TicketManagementApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "TicketID,UserGroupID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate,DepartmentId")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload, int usergroup)
+        public async Task<ActionResult> Create([Bind(Include = "TicketID,UserGroupID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload, int usergroup, string departmentSelectList)
         {
             var result = new {isValid = true};
             var notValidResult = new { isValid = false };
+            int departmentId = string.Compare(departmentSelectList, "softwareDepartment") == 0 ? 1 : 2;
             if (ModelState.IsValid)
             {
 
@@ -76,6 +77,7 @@ namespace TicketManagementApp.Controllers
                 ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
                 ticket.UserGroupID = usergroup;
                 ticket.TrackCode = GenerateTrackingCode();
+                ticket.DepartmentId = departmentId;
 
                 if (TicketAttachmentUpload != null)
                 {
@@ -85,8 +87,14 @@ namespace TicketManagementApp.Controllers
 
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                emailService = new EmailService("test", "تیکت جدید ثبت شده است. لطفا سیستم تیکت را چک کنید" + "\n" +"متن پیام:" + "\n"+ ticket.TicketDescription + "کد پیگیری:" + ticket.TrackCode, "ticketing@kavehlogistics.com");
-                emailService.Send();
+                try
+                {
+                    emailService = new EmailService("test", "تیکت جدید ثبت شده است. لطفا سیستم تیکت را چک کنید" + "\n" + "متن پیام:" + "\n" + ticket.TicketDescription + "کد پیگیری:" + "\n" + ticket.TrackCode, "ticketing@kavehlogistics.com");
+                    emailService.Send();
+                }catch(Exception e)
+                {
+                    Console.WriteLine();
+                }
                 return RedirectToAction("Index");
             }
 
