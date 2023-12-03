@@ -19,5 +19,20 @@ namespace TicketManagementApp
             RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
+
+        protected void Application_Error()
+        {
+            var error = Server.GetLastError();
+            if((error as HttpException)?.GetHttpCode() == 404)
+            {
+                Server.ClearError();
+                Response.StatusCode = 404;
+            }
+            if((error as HttpException)?.GetHttpCode() == 500)
+            {
+                Server.ClearError();
+                Response.StatusCode= 500;
+            }
+        }
     }
 }

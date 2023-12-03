@@ -116,7 +116,7 @@
                                 <div>
 
                                     @{
-                                        string dateText = persianCalendar.GetYear(@item.ReplyDate).ToString() + "/" + persianCalendar.GetMonth(@item.ReplyDate).ToString() + "/" + persianCalendar.GetDayOfMonth(@item.ReplyDate).ToString();
+                                        string dateText = persianCalendar.GetYear(@item.ReplyDate).ToString() + "/" + persianCalendar.GetMonth(@item.ReplyDate).ToString() + "/" + persianCalendar.GetDayOfMonth(@item.ReplyDate).ToString() + " - " + persianCalendar.GetMinute(@item.ReplyDate).ToString() + " : " +  persianCalendar.GetHour(@item.ReplyDate).ToString();
                                     }
                                     @dateText
                                 </div>
@@ -131,6 +131,14 @@
                                         @*}*@
                                 </p>
                             </div>
+                        <!--card footer-->
+                        @if (item.TicketReplyAttachment != null)
+                        {
+                            <div class="card-footer">
+                                <a href="~/TicketAttachments/@item.TicketReplyAttachment">این پیام یک فایل ضمیمه دارد. کلیک کنید.</a>
+                            </div>}
+                        <!--end footer-->
+
                         </div>
                     </div>
                 }
@@ -171,6 +179,14 @@
                             @*@Html.LabelFor(model => model.TicketReply, htmlAttributes: new { @class = "control-label col-md-3 " })*@
                             <div class="">
                                 <textarea class="form-control" type="text" name="replyText" rows="8"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group w-50">
+                            <label class="control-label col-md-3">آپلود فایل</label>
+                            <div class="">
+                                @Html.ValidationMessageFor(model => model.TicketReply, "", new { @class = "text-danger" })
+                                <input class="form-control" type="file" name="TicketReplyAttachmentUpload" />
                             </div>
                         </div>
 

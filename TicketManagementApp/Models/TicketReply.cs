@@ -20,6 +20,10 @@ namespace TicketManagementApp.Models
         [Required]
         public string Text { get; set; }
 
+        [Display(Name ="ضمیمه")]
+        [DataType(DataType.Upload)]
+        public string TicketReplyAttachment {  get; set; }
+
         [Required]
         [Display(Name ="تاریخ پاسخ")]
         public DateTime ReplyDate { get; set; }

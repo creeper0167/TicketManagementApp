@@ -168,14 +168,14 @@ namespace TicketManagementApp.Controllers
 
        
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
         public ActionResult LogOut()
         {
@@ -192,7 +192,7 @@ namespace TicketManagementApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TicketReply([Bind] Ticket ticket, string replyText)
+        public ActionResult TicketReply([Bind] Ticket ticket, string replyText, HttpPostedFileBase TicketReplyAttachmentUpload)
         {
             Ticket ticket1 = db.Tickets.Find(ticket.TicketID);
             if (ModelState.IsValid)
@@ -202,6 +202,11 @@ namespace TicketManagementApp.Controllers
                 reply.Text = replyText;
                 reply.AccountID = Int32.Parse(Session["AccountID"].ToString());
                 reply.ReplyDate = DateTime.Now;
+                if (TicketReplyAttachmentUpload != null)
+                {
+                   reply.TicketReplyAttachment = Guid.NewGuid() + Path.GetExtension(TicketReplyAttachmentUpload.FileName);
+                   TicketReplyAttachmentUpload.SaveAs(Server.MapPath("/TicketAttachments/" + reply.TicketReplyAttachment));
+                }
                 _ticketReplyRepo.InsertTicketReply(reply);
                 _ticketReplyRepo.Save();
                 ticket1.TicketReply.Add(reply);
@@ -221,6 +226,20 @@ namespace TicketManagementApp.Controllers
                 return Json(ticket);
             }
             return Json(null);
+        }
+
+        public ActionResult CloseTicket(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Ticket ticket = _ticketRepo.GetTicketById(id.Value);
+            ticket.TicketStatus = "بسته شده";
+            _ticketRepo.UpdateTicket(ticket);
+            _ticketRepo.Save();
+            return RedirectToAction("Details");
+
         }
 
         #region function

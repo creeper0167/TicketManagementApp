@@ -42,7 +42,7 @@ namespace TicketManagementApp.Controllers
             int departmentId = Int32.Parse(Session["DepartmentId"].ToString());
             ViewBag.UnreadCounterValue = _ticketRepo.GetAllTickets().Where(i => i.TicketStatus == "در انتظار بررسی" && i.DepartmentId == departmentId).Count();
             int pageNumber = (page ?? 1);
-
+            
             return View(_ticketRepo.GetAllTickets().OrderByDescending(i=>i.TicketID).ToList().ToPagedList(pageNumber, 15));
         }
 
@@ -86,7 +86,7 @@ namespace TicketManagementApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TicketReply([Bind]Ticket ticket, string replyText)
+        public ActionResult TicketReply([Bind]Ticket ticket, string replyText, HttpPostedFileBase TicketReplyAttachmentUpload)
         {
             Ticket ticket1 = _tkContext.Tickets.Find(ticket.TicketID);
             if (ModelState.IsValid)
@@ -96,6 +96,11 @@ namespace TicketManagementApp.Controllers
                 reply.Text = replyText;
                 reply.AccountID = Int32.Parse(Session["AccountID"].ToString());
                 reply.ReplyDate = DateTime.Now;
+                if (TicketReplyAttachmentUpload != null)
+                {
+                    reply.TicketReplyAttachment = Guid.NewGuid() + Path.GetExtension(TicketReplyAttachmentUpload.FileName);
+                    TicketReplyAttachmentUpload.SaveAs(Server.MapPath("/TicketAttachments/" + reply.TicketReplyAttachment));
+                }
                 _ticketReplyRepo.InsertTicketReply(reply);
                 _ticketReplyRepo.Save();
                 ticket1.TicketReply.Add(reply);

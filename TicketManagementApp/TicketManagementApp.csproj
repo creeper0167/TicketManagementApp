@@ -1112,6 +1112,10 @@
     <Compile Include="Migrations\202311281018116_init.designer.cs">
       <DependentUpon>202311281018116_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202312030516303_init1.cs" />
+    <Compile Include="Migrations\202312030516303_init1.designer.cs">
+      <DependentUpon>202312030516303_init1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accounts.cs" />
     <Compile Include="Models\Department.cs" />
@@ -1140,6 +1144,7 @@
     <Compile Include="Repositories\Services\TicketReplyService.cs" />
     <Compile Include="Repositories\Services\TicketService.cs" />
     <Compile Include="Repositories\Services\UserGroupService.cs" />
+    <Compile Include="Security\PasswordHelper.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1421,7 +1426,8 @@
     <Content Include="Views\Sweet\Alert.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\InternalError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1440,6 +1446,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202311281018116_init.resx">
       <DependentUpon>202311281018116_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312030516303_init1.resx">
+      <DependentUpon>202312030516303_init1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
