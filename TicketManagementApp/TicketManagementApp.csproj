@@ -1099,6 +1099,7 @@
     <Compile Include="Areas\Admin\Controllers\TicketsController.cs" />
     <Compile Include="Areas\Users\UsersAreaRegistration.cs" />
     <Compile Include="Context\TkContext.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SweetController.cs" />
@@ -1418,6 +1419,9 @@
     <Content Include="Views\Shared\_DefPage1.cshtml" />
     <Content Include="Views\Ticket\TicketReply.cshtml" />
     <Content Include="Views\Sweet\Alert.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
