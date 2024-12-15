@@ -1,4 +1,6 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿using Kavenegar.Exceptions;
+using Kavenegar;
+using Microsoft.Ajax.Utilities;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -42,25 +44,25 @@ namespace TicketManagementApp.Controllers
             int departmentId = Int32.Parse(Session["DepartmentId"].ToString());
             ViewBag.UnreadCounterValue = _ticketRepo.GetAllTickets().Where(i => i.TicketStatus == "در انتظار بررسی" && i.DepartmentId == departmentId).Count();
             int pageNumber = (page ?? 1);
-            
-            return View(_ticketRepo.GetAllTickets().OrderByDescending(i=>i.TicketID).ToList().ToPagedList(pageNumber, 15));
+
+            return View(_ticketRepo.GetAllTickets().OrderByDescending(i => i.TicketID).ToList().ToPagedList(pageNumber, 15));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include ="TicketID,TicketGroupID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus")] Ticket ticket
+        public ActionResult Index([Bind(Include = "TicketID,TicketGroupID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus")] Ticket ticket
             , HttpPostedFileBase TicketAttachmentUpload)
         {
-            var result = new {isValid= true};
-            
+            var result = new { isValid = true };
+
             if (ModelState.IsValid)
             {
 
                 ticket.TicketStatus = "در انتظار بررسی";
                 ticket.TicketDate = DateTime.Now;
                 ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
-                
-                if(TicketAttachmentUpload != null)
+
+                if (TicketAttachmentUpload != null)
                 {
                     ticket.TicketAttachment = Guid.NewGuid() + Path.GetExtension(TicketAttachmentUpload.FileName);
                     TicketAttachmentUpload.SaveAs(Server.MapPath("/TicketAttachments/" + ticket.TicketAttachment));
@@ -68,6 +70,26 @@ namespace TicketManagementApp.Controllers
 
                 _tkContext.Tickets.Add(ticket);
                 _tkContext.SaveChanges();
+                try
+                {
+
+                    var receptor = "09331283198";
+
+
+                    var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
+                    var r = api.Send("20001327", receptor, "تراک " + " راننده " + ".به مقصد نرسیده است");
+
+                }
+                catch (ApiException ex)
+                {
+                    // در صورتی که خروجی وب سرویس 200 نباشد این خطارخ می دهد.
+                    
+                }
+                catch (Kavenegar.Exceptions.HttpException ex)
+                {
+                    // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+                    
+                }
                 //await JS.InvokeVoidAsync("displayAlert");
                 //return RedirectToAction("TicketView");
                 return Json(result);
@@ -78,7 +100,7 @@ namespace TicketManagementApp.Controllers
         }
         public ActionResult TicketReply(int? id)
         {
-            if(id == null)
+            if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Ticket ticket = _tkContext.Tickets.Find(id);
             return View(ticket);
@@ -86,7 +108,7 @@ namespace TicketManagementApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TicketReply([Bind]Ticket ticket, string replyText, HttpPostedFileBase TicketReplyAttachmentUpload)
+        public ActionResult TicketReply([Bind] Ticket ticket, string replyText, HttpPostedFileBase TicketReplyAttachmentUpload)
         {
             Ticket ticket1 = _tkContext.Tickets.Find(ticket.TicketID);
             if (ModelState.IsValid)
@@ -117,10 +139,10 @@ namespace TicketManagementApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = _ticketRepo.GetTicketById(id.Value);
-            
-            if(ticket.TicketStatus == "در انتظار بررسی")
+
+            if (ticket.TicketStatus == "در انتظار بررسی")
                 ticket.TicketStatus = "در حال بررسی";
-            
+
             _ticketRepo.UpdateTicket(ticket);
             _ticketRepo.Save();
             if (ticket == null)
@@ -150,7 +172,7 @@ namespace TicketManagementApp.Controllers
                 return RedirectToAction("TicketView");
             }
             int pageNumber = 1;
-            var model = _ticketRepo.GetAllTickets().Where(item => item.TrackCode == searchString).ToPagedList(pageNumber, 15);
+            var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.TicketID).Where(item => item.TrackCode == searchString).ToPagedList(pageNumber, 15);
             return View("TicketView", model);
         }
     }
