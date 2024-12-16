@@ -26,7 +26,7 @@ namespace TicketManagementApp.Models
         [Display(Name ="نام")]
         //[Required(ErrorMessage ="لطفا {0} را وارد کنید")]
         public string FullName { get; set; }
-
+        public string Phonenumber {  get; set; }
         public Accounts()
         {
             

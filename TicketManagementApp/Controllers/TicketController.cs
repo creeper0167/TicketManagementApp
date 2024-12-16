@@ -15,6 +15,7 @@ using TicketManagementApp.Context;
 using TicketManagementApp.Models;
 using TicketManagementApp.Repositories;
 using TicketManagementApp.Repositories.Services;
+using System.Data.Entity;
 
 namespace TicketManagementApp.Controllers
 {
@@ -73,11 +74,11 @@ namespace TicketManagementApp.Controllers
                 try
                 {
 
-                    var receptor = "09331283198";
+                    var receptor = "09132451970";
 
 
                     var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
-                    var r = api.Send("20001327", receptor, "تراک " + " راننده " + ".به مقصد نرسیده است");
+                    var r = api.Send("20001327", receptor,"تیکت جدیدی از طرف " + Session["FullName"].ToString() + "ثبت شد");
 
                 }
                 catch (ApiException ex)
@@ -128,6 +129,26 @@ namespace TicketManagementApp.Controllers
                 ticket1.TicketReply.Add(reply);
                 _ticketRepo.UpdateTicket(ticket1);
                 _ticketRepo.Save();
+                try
+                {
+
+                    var receptor = _tkContext.Tickets.Where(i=>i.AccountID == ticket1.AccountID).FirstOrDefault().Account.Phonenumber;
+
+
+                    var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
+                    var r = api.Send("20001327", receptor, "تیکت شما پاسخ داده شد " + Session["FullName"].ToString() + "");
+
+                }
+                catch (ApiException ex)
+                {
+                    // در صورتی که خروجی وب سرویس 200 نباشد این خطارخ می دهد.
+
+                }
+                catch (Kavenegar.Exceptions.HttpException ex)
+                {
+                    // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+
+                }
             }
             return RedirectToAction("TicketView");
             //return View(ticket1);

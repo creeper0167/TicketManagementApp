@@ -1119,6 +1119,10 @@
     <Compile Include="Migrations\202312030516303_init1.designer.cs">
       <DependentUpon>202312030516303_init1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202412150609319_phone.cs" />
+    <Compile Include="Migrations\202412150609319_phone.Designer.cs">
+      <DependentUpon>202412150609319_phone.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accounts.cs" />
     <Compile Include="Models\Department.cs" />
@@ -1452,6 +1456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202312030516303_init1.resx">
       <DependentUpon>202312030516303_init1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412150609319_phone.resx">
+      <DependentUpon>202412150609319_phone.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

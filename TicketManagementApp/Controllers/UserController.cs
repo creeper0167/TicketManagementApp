@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Kavenegar.Exceptions;
+using Kavenegar;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -89,11 +91,24 @@ namespace TicketManagementApp.Controllers
                 db.SaveChanges();
                 try
                 {
-                    emailService = new EmailService("test", "تیکت جدید ثبت شده است. لطفا سیستم تیکت را چک کنید" + "\n" + "متن پیام:" + "\n" + ticket.TicketDescription + "کد پیگیری:" + "\n" + ticket.TrackCode, "ticketing@kavehlogistics.com");
-                    emailService.Send();
-                }catch(Exception e)
+
+                    var receptor = "09132451970";
+                    //var receptor = "09331283198";
+
+
+                    var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
+                    var r = api.Send("20001327", receptor, "تیکت جدیدی از طرف " + Session["FullName"].ToString() + " ثبت شد");
+
+                }
+                catch (ApiException ex)
                 {
-                    Console.WriteLine();
+                    // در صورتی که خروجی وب سرویس 200 نباشد این خطارخ می دهد.
+
+                }
+                catch (Kavenegar.Exceptions.HttpException ex)
+                {
+                    // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+
                 }
                 return RedirectToAction("Index");
             }
