@@ -87,7 +87,7 @@
                     @Html.DisplayFor(modelItem => item.TicketSubject)
                 </td>
                 <td class="" style="">
-                    <span class="overflow-hidden">@Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)</span>
+                    <span class="overflow-hidden">@Html.DisplayFor(modelItem => item.Account.FullName)</span>
                 </td>
                 <td>
                     @if (item.TicketAttachment != null)

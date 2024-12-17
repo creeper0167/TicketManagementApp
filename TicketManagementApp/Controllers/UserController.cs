@@ -92,12 +92,12 @@ namespace TicketManagementApp.Controllers
                 try
                 {
 
-                    var receptor = "09132451970";
+                    var receptors = new List<string> { "09132451970", "09353880336" };
                     //var receptor = "09331283198";
 
 
                     var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
-                    var r = api.Send("20001327", receptor, "تیکت جدیدی از طرف " + Session["FullName"].ToString() + " ثبت شد");
+                    var r = api.Send("20001327", receptors, "تیکت جدیدی از طرف " + Session["FullName"].ToString() + " ثبت شد");
 
                 }
                 catch (ApiException ex)
