@@ -31,12 +31,17 @@ namespace TicketManagementApp.Repositories.Services
 
         public IEnumerable<Ticket> GetAllTickets()
         {
-            return _tkContext.Tickets;
+            return _tkContext.Tickets.ToList();
         }
 
         public Ticket GetTicketById(int id)
         {
             return _tkContext.Tickets.Find(id);
+        }
+
+        public IEnumerable<Ticket> GetTicketsByUserGroupID(int filter)
+        {
+            return _tkContext.Tickets.Include(i => i.UserGroup).Where(i=>i.UserGroup.UserGroupID == filter).ToList();
         }
 
         public bool InsertTicket(Ticket ticket)

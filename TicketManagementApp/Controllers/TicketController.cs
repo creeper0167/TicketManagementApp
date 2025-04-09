@@ -24,12 +24,13 @@ namespace TicketManagementApp.Controllers
         private TkContext _tkContext;
         private ITicketReplyRepo _ticketReplyRepo;
         private ITicketRepo _ticketRepo;
-
+        private IUserGroupRepo _userRepo;
         public TicketController()
         {
             _tkContext = new TkContext();
             _ticketRepo = new TicketService();
             _ticketReplyRepo = new TicketReplyService();
+            _userRepo = new UserGroupService();
         }
         // GET: Ticket
         public ActionResult Index()
@@ -42,6 +43,7 @@ namespace TicketManagementApp.Controllers
         public ActionResult TicketView(int? page)
         {
             ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
+            ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
             int departmentId = Int32.Parse(Session["DepartmentId"].ToString());
             ViewBag.UnreadCounterValue = _ticketRepo.GetAllTickets().Where(i => i.TicketStatus == "در انتظار بررسی" && i.DepartmentId == departmentId).Count();
             int pageNumber = (page ?? 1);
@@ -76,20 +78,19 @@ namespace TicketManagementApp.Controllers
 
                     var receptors = new List<string> { "09132451970", "09353880336" };
 
-
                     var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
-                    var r = api.Send("20001327", receptors,"تیکت جدیدی از طرف " + Session["FullName"].ToString() + "ثبت شد");
+                    var r = api.Send("20001327", receptors, "تیکت جدیدی از طرف " + Session["FullName"].ToString() + "ثبت شد");
 
                 }
                 catch (ApiException ex)
                 {
                     // در صورتی که خروجی وب سرویس 200 نباشد این خطارخ می دهد.
-                    
+
                 }
                 catch (Kavenegar.Exceptions.HttpException ex)
                 {
                     // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
-                    
+
                 }
                 //await JS.InvokeVoidAsync("displayAlert");
                 //return RedirectToAction("TicketView");
@@ -131,12 +132,10 @@ namespace TicketManagementApp.Controllers
                 _ticketRepo.Save();
                 try
                 {
-
-                    var receptor = _tkContext.Tickets.Where(i=>i.AccountID == ticket1.AccountID).FirstOrDefault().Account.Phonenumber;
-
-
                     var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
-                    var r = api.Send("20001327", receptor, "تیکت شما پاسخ داده شد " + Session["FullName"].ToString() + "");
+
+                    var receptor = _tkContext.Tickets.Where(i => i.AccountID == ticket1.AccountID).FirstOrDefault().Account.Phonenumber;
+                    var r = api.Send("20001327", receptor, "تیکت شما پاسخ داده شد " + Session["FullName"].ToString() + "" + "\nشماره تیکت" + ticket1.TicketID.ToString());
 
                 }
                 catch (ApiException ex)
@@ -193,7 +192,20 @@ namespace TicketManagementApp.Controllers
                 return RedirectToAction("TicketView");
             }
             int pageNumber = 1;
-            var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.TicketID).Where(item => item.TrackCode == searchString).ToPagedList(pageNumber, 15);
+            var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.TicketID).Where(item => item.TicketID.ToString() == searchString).ToPagedList(pageNumber, 15);
+            return View("TicketView", model);
+        }
+
+        [HttpPost]
+        public ActionResult Filter(int filter)
+        {
+            //if ((filter.IsNullOrWhiteSpace()))
+            //{
+            //    return RedirectToAction("TicketView");
+            //}
+            ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
+            int pageNumber = 1;
+            var model = _ticketRepo.GetTicketsByUserGroupID(filter).ToPagedList(pageNumber, 15);
             return View("TicketView", model);
         }
     }

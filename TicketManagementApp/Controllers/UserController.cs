@@ -68,7 +68,7 @@ namespace TicketManagementApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "TicketID,UserGroupID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload, int usergroup, string departmentSelectList)
         {
-            var result = new {isValid = true};
+            var result = new { isValid = true };
             var notValidResult = new { isValid = false };
             int departmentId = string.Compare(departmentSelectList, "softwareDepartment") == 0 ? 1 : 2;
             if (ModelState.IsValid)
@@ -93,8 +93,6 @@ namespace TicketManagementApp.Controllers
                 {
 
                     var receptors = new List<string> { "09132451970", "09353880336" };
-                    //var receptor = "09331283198";
-
 
                     var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
                     var r = api.Send("20001327", receptors, "تیکت جدیدی از طرف " + Session["FullName"].ToString() + " ثبت شد");
@@ -181,7 +179,7 @@ namespace TicketManagementApp.Controllers
             return RedirectToAction("Index");
         }
 
-       
+
 
         //protected override void Dispose(bool disposing)
         //{
@@ -219,14 +217,32 @@ namespace TicketManagementApp.Controllers
                 reply.ReplyDate = DateTime.Now;
                 if (TicketReplyAttachmentUpload != null)
                 {
-                   reply.TicketReplyAttachment = Guid.NewGuid() + Path.GetExtension(TicketReplyAttachmentUpload.FileName);
-                   TicketReplyAttachmentUpload.SaveAs(Server.MapPath("/TicketAttachments/" + reply.TicketReplyAttachment));
+                    reply.TicketReplyAttachment = Guid.NewGuid() + Path.GetExtension(TicketReplyAttachmentUpload.FileName);
+                    TicketReplyAttachmentUpload.SaveAs(Server.MapPath("/TicketAttachments/" + reply.TicketReplyAttachment));
                 }
                 _ticketReplyRepo.InsertTicketReply(reply);
                 _ticketReplyRepo.Save();
                 ticket1.TicketReply.Add(reply);
                 _ticketRepo.UpdateTicket(ticket1);
                 _ticketRepo.Save();
+            }
+            try
+            {
+                var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
+
+                var receptors = new List<string> { "09132451970", "09353880336" };
+                var r = api.Send("20001327", receptors, "تیکت شما پاسخ داده شد " + "\nشماره تیکت" + ticket1.TicketID.ToString());
+
+            }
+            catch (ApiException ex)
+            {
+                // در صورتی که خروجی وب سرویس 200 نباشد این خطارخ می دهد.
+
+            }
+            catch (Kavenegar.Exceptions.HttpException ex)
+            {
+                // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+
             }
             return RedirectToAction("Index");
             //return View(ticket1);
@@ -236,7 +252,7 @@ namespace TicketManagementApp.Controllers
         [HttpPost]
         public JsonResult CreatePostAjax(Ticket ticket)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 return Json(ticket);
             }

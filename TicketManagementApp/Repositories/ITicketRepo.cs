@@ -10,6 +10,7 @@ namespace TicketManagementApp.Repositories
     public interface ITicketRepo : IDisposable
     {
         IEnumerable<Ticket> GetAllTickets();
+        IEnumerable<Ticket> GetTicketsByUserGroupID(int filter);
         bool InsertTicket(Ticket ticket);
         bool UpdateTicket(Ticket ticket);
         bool DeleteTicket(Ticket ticket);
