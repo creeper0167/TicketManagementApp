@@ -192,12 +192,13 @@ namespace TicketManagementApp.Controllers
                 return RedirectToAction("TicketView");
             }
             int pageNumber = 1;
-            var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.TicketID).Where(item => item.TicketID.ToString() == searchString).ToPagedList(pageNumber, 15);
+            ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
+            var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.TicketID).Where(item => string.Compare(item.TicketID.ToString(), searchString) == 0).ToPagedList(pageNumber, 15);
             return View("TicketView", model);
         }
 
         [HttpPost]
-        public ActionResult Filter(int filter)
+        public ActionResult Filter(string filter)
         {
             //if ((filter.IsNullOrWhiteSpace()))
             //{
@@ -205,7 +206,7 @@ namespace TicketManagementApp.Controllers
             //}
             ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
             int pageNumber = 1;
-            var model = _ticketRepo.GetTicketsByUserGroupID(filter).ToPagedList(pageNumber, 15);
+            var model = _ticketRepo.GetTicketsByUserGroupID(Int32.Parse(filter)).ToPagedList(pageNumber, 15);
             return View("TicketView", model);
         }
     }

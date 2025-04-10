@@ -31,7 +31,7 @@ namespace TicketManagementApp.Repositories.Services
 
         public IEnumerable<Ticket> GetAllTickets()
         {
-            return _tkContext.Tickets.ToList();
+            return _tkContext.Tickets.Include(i=>i.UserGroup).Include(i=>i.TicketReply).ToList();
         }
 
         public Ticket GetTicketById(int id)
