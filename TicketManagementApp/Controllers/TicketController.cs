@@ -47,8 +47,8 @@ namespace TicketManagementApp.Controllers
             int departmentId = Int32.Parse(Session["DepartmentId"].ToString());
             ViewBag.UnreadCounterValue = _ticketRepo.GetAllTickets().Where(i => i.TicketStatus == "در انتظار بررسی" && i.DepartmentId == departmentId).Count();
             int pageNumber = (page ?? 1);
-
-            return View(_ticketRepo.GetAllTickets().OrderByDescending(i => i.TicketID).ToList().ToPagedList(pageNumber, 15));
+            var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 15);
+            return View(model);
         }
 
         [HttpPost]
@@ -64,6 +64,7 @@ namespace TicketManagementApp.Controllers
                 ticket.TicketStatus = "در انتظار بررسی";
                 ticket.TicketDate = DateTime.Now;
                 ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
+                ticket.LastReplyDateTime = DateTime.Now;
 
                 if (TicketAttachmentUpload != null)
                 {
@@ -128,7 +129,9 @@ namespace TicketManagementApp.Controllers
                 _ticketReplyRepo.InsertTicketReply(reply);
                 _ticketReplyRepo.Save();
                 ticket1.TicketReply.Add(reply);
-                _ticketRepo.UpdateTicket(ticket1);
+                var ticket2 = _tkContext.Tickets.Where(t => t.TicketID == ticket.TicketID).AsNoTracking().FirstOrDefault();
+                ticket2.LastReplyDateTime = DateTime.Now;
+                _ticketRepo.UpdateTicket(ticket2);
                 _ticketRepo.Save();
                 try
                 {
@@ -161,10 +164,13 @@ namespace TicketManagementApp.Controllers
             Ticket ticket = _ticketRepo.GetTicketById(id.Value);
 
             if (ticket.TicketStatus == "در انتظار بررسی")
+            {
                 ticket.TicketStatus = "در حال بررسی";
+                _ticketRepo.UpdateTicket(ticket);
+                _ticketRepo.Save();
+            }
 
-            _ticketRepo.UpdateTicket(ticket);
-            _ticketRepo.Save();
+
             if (ticket == null)
                 return HttpNotFound();
             return View(ticket);

@@ -1123,6 +1123,10 @@
     <Compile Include="Migrations\202412150609319_phone.Designer.cs">
       <DependentUpon>202412150609319_phone.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504100828531_addLastDateTimeToReply.cs" />
+    <Compile Include="Migrations\202504100828531_addLastDateTimeToReply.Designer.cs">
+      <DependentUpon>202504100828531_addLastDateTimeToReply.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accounts.cs" />
     <Compile Include="Models\Department.cs" />
@@ -1459,6 +1463,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412150609319_phone.resx">
       <DependentUpon>202412150609319_phone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504100828531_addLastDateTimeToReply.resx">
+      <DependentUpon>202504100828531_addLastDateTimeToReply.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

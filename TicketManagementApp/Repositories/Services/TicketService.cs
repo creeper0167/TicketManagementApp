@@ -67,7 +67,7 @@ namespace TicketManagementApp.Repositories.Services
         {
             try
             {
-                _tkContext.Entry(ticket).State=EntityState.Modified;
+                _tkContext.Entry(ticket).State = EntityState.Modified;
                 return true;
             }
             catch (Exception)

@@ -90,7 +90,7 @@
                 <th>عملیات</th>
             </tr>
 
-            @foreach (var item in Model.Where(i => i.DepartmentId == departmentId).OrderByDescending(i => i.TicketID).ToList())
+            @foreach (var item in Model.Where(i => i.DepartmentId == departmentId).OrderByDescending(i => i.LastReplyDateTime).ToList())
             {
                 {
                     counter++;

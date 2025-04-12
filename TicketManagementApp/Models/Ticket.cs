@@ -34,6 +34,8 @@ namespace TicketManagementApp.Models
         public string TrackCode { get; set; }
         [Display(Name ="واحد گیرنده")]
         public int? DepartmentId { get; set; }
+        [Display(Name = "آخرین پاسخ")]
+        public DateTime LastReplyDateTime { get; set; } = DateTime.Now;
         public Ticket()
         {
             
