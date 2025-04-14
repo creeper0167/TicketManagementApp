@@ -1,0 +1,214 @@
+﻿@*@model IEnumerable<TicketManagementApp.Models.Ticket>*@
+@using TicketManagementApp.Models;
+@using System.Globalization;
+@using PagedList.Mvc
+@model PagedList.IPagedList<TicketManagementApp.Models.Ticket>
+@{
+    //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    Layout = "~/Views/Shared/_DefPage1.cshtml";
+    PersianCalendar persianCalendar = new PersianCalendar();
+    int counter = 0;
+    int departmentId = Int32.Parse(Session["DepartmentId"].ToString());
+}
+
+@*<!DOCTYPE html>*@
+
+@*<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/style.css" rel="stylesheet" type="text/css"/>
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    </head>*@
+
+<div class="min-vh-100 container-fluid">
+    @using (Html.BeginForm("Search", "Ticket", FormMethod.Post))
+    {
+        <div class="container-fluid mb-3">
+            <div class="row">
+                <div class="col-2">
+                    <input type="text" placeholder="کدرهگیری" name="searchString" class="form-control" />
+                </div>
+                <div class="col-6">
+                    <input type="submit" value="جست‌وجو" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+    @using (Html.BeginForm("Filter", "Ticket", FormMethod.Post))
+    {
+        <div class="container-fluid mb-3">
+            <div class="row">
+                <div class="col-2">
+                    <select class="form-control form-select" name="filter">
+                        @foreach (var item in ViewBag.UserGroupTitles)
+                        {
+                            <option value="@item.UserGroupID">@item.UserGroupTitle</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-6"><input type="submit" value="اعمال فیلتر" class="btn btn-success" /></div>
+            </div>
+        </div>
+    }
+    <div class="card">
+        <div class="card-header bg-info"><h1 class="text-center">لیست تیکت ها</h1></div>
+
+
+        <table class="table">
+            <tr class="bg-light">
+                <th>
+                    @*@Html.DisplayNameFor(model => model.TicketID)*@ ردیف
+                </th>
+                <th>
+                    شماره تیکت
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ نوع تیکت
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.TicketSubject)*@ موضوع
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.TicketDescription)*@ ارسال شده از واحد
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.TicketAttachment)*@ فایل ضمیمه
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.TicketStatus)*@ آخرین وضعیت
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.TicketDate)*@ تاریخ تیکت
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Account.UserGroup)
+                    </th>*@
+                <th>عملیات</th>
+            </tr>
+
+            @foreach (var item in Model.Where(i => i.DepartmentId == departmentId).OrderByDescending(i => i.LastReplyDateTime).ToList())
+            {
+                {
+                    counter++;
+                }
+                <tr>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.TicketID)*@ @counter
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketGroup.TicketGroupTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TicketSubject)
+                    </td>
+                    <td class="" style="">
+                        <span class="overflow-hidden">@Html.DisplayFor(modelItem => item.Account.FullName)</span>
+                    </td>
+                    <td>
+                        @if (item.TicketAttachment != null)
+                        {
+                            <a href="~/TicketAttachments/@item.TicketAttachment">
+                                دانلود فایل
+                                @*@Html.DisplayFor(modelItem => item.TicketAttachment)*@
+                            </a>}
+                    </td>
+                    <td>
+                        @if (item.TicketStatus == "در انتظار بررسی")
+                        {
+                            <span class="bg-success p-2 rounded-5">@Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                        }
+                        @if (item.TicketStatus == "در حال بررسی")
+                        {
+                            <span class="bg-warning p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                        }
+                        @if (item.TicketStatus == "بسته شده")
+                        {
+                            <span class="bg-danger p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                        }
+                    </td>
+
+
+                    <td>
+                        @{
+                            string date = persianCalendar.GetYear(item.TicketDate).ToString() + "/" + persianCalendar.GetMonth(item.TicketDate).ToString() + "/" + persianCalendar.GetDayOfMonth(item.TicketDate).ToString();
+                        }
+                        @date
+                        @*@Html.DisplayFor(modelItem => item.TicketDate)*@
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Account.UserGroup)
+                        </td>*@
+                    <td>
+                        @*@Html.ActionLink("پاسخ", "TicketReply", new { id = item.TicketID }) |*@
+                        @Html.ActionLink("جزئیات", "TicketDetails", new { id = item.TicketID }, htmlAttributes: new { @class = "text-info" }) @*|*@
+                        @*@Html.ActionLink("Delete", "Delete", new { id = item.TicketID })*@
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div id="pager">
+        @*<p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>*@
+        @Html.PagedListPager(Model, page => Url.Action("TicketFilter", new { page = page, filter = ViewBag.Filter }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< ابتدا", LinkToPreviousPageFormat = "< صفحه قبلی", LinkToNextPageFormat = "صفحه بعدی>", LinkToLastPageFormat = "آخرین >>" })
+    </div>
+</div>
+@section s{
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "0",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        $(function () {
+            //toastr.success('لطفا آخرین تیکت ثبت شده در سیستم را بررسی کنید','پیغام جدید');
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.myHub1;
+            // Create a function that the hub can call back to display messages.
+            chat.client.updateNotificationBar = function () {
+                // Add the message to the page.
+                alert("notify to all clients");
+            };
+            chat.client.update = function () {
+                toastr.success('لطفا صندوق خود را مجدد باز کنید', 'تیکت جدید دریافت شد');
+
+            };
+            // Get the user name and store it to prepend to messages.
+
+            // Set initial focus to message input box.
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                console.log("connection established");
+                // Call the Send method on the hub.
+                //$("#alertBtn").click(function () {
+                //    chat.server.send();
+                //});
+            });
+
+        });
+        // This optional function html-encodes messages for display in the page.
+
+    </script>
+}
+

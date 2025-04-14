@@ -1439,6 +1439,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\InternalError.cshtml" />
+    <Content Include="Views\Ticket\TicketFilter.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

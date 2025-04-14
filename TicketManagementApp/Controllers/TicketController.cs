@@ -51,6 +51,17 @@ namespace TicketManagementApp.Controllers
             return View(model);
         }
 
+        public ActionResult TicketFilter(string filter, int? page)
+        {
+            ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
+            ViewBag.Filter = filter;
+            int pageNumber = (page ?? 1);
+            
+            var model = _ticketRepo.GetTicketsByUserGroupID(Int32.Parse(filter)).OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 15);
+
+            return View(model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index([Bind(Include = "TicketID,TicketGroupID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus")] Ticket ticket
@@ -211,9 +222,10 @@ namespace TicketManagementApp.Controllers
             //    return RedirectToAction("TicketView");
             //}
             ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
+            ViewBag.Filter = filter;
             int pageNumber = 1;
             var model = _ticketRepo.GetTicketsByUserGroupID(Int32.Parse(filter)).ToPagedList(pageNumber, 15);
-            return View("TicketView", model);
+            return View("TicketFilter", model);
         }
     }
 }
