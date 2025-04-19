@@ -31,7 +31,8 @@ namespace TicketManagementApp.Controllers
         // GET: User
         public ActionResult Index()
         {
-            var tickets = db.Tickets.Include(t => t.Account).Include(t => t.TicketGroup);
+            var userGroupId = Int32.Parse(Session["UserGroupId"].ToString());
+            var tickets = db.Tickets.Include(t => t.Account).Include(t => t.TicketGroup).Include(i=>i.UserGroup).Where(i=>i.UserGroupID == userGroupId);
             try { return View(tickets.ToList()); }
             catch { return View(); }
         }

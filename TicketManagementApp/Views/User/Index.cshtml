@@ -5,7 +5,8 @@
     ViewBag.Title = "Index";
     //Layout = "~/Views/Shared/_DefaultLayout.cshtml";
     Layout = "~/Views/Shared/_DefaultLayout.cshtml";
-    int accountID = Int32.Parse(Session["AccountID"].ToString());
+    //int accountID = Int32.Parse(Session["AccountID"].ToString());
+
     PersianCalendar persianCalendar = new PersianCalendar();
     int counter = 0;
 }
@@ -26,9 +27,6 @@
                شماره تیکت
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.TicketGroup.TicketGroupTitle)*@ کد پیگیری
-            </th>
-            <th>
                 @*@Html.DisplayNameFor(model => model.TicketSubject)*@ موضوع تیکت
             </th>
             <th>
@@ -46,7 +44,7 @@
             <th>عملیات</th>
         </tr>
 
-        @foreach (var item in Model.Where(e => e.AccountID == accountID).OrderByDescending(e => e.TicketID).ToList())
+        @foreach (var item in Model.OrderByDescending(e => e.TicketID).ToList())
         {
             {
                 counter++;
@@ -57,9 +55,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TicketID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TrackCode)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TicketSubject)
