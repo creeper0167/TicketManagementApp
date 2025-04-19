@@ -224,7 +224,7 @@ namespace TicketManagementApp.Controllers
             ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
             ViewBag.Filter = filter;
             int pageNumber = 1;
-            var model = _ticketRepo.GetTicketsByUserGroupID(Int32.Parse(filter)).ToPagedList(pageNumber, 15);
+            var model = _ticketRepo.GetTicketsByUserGroupID(Int32.Parse(filter)).OrderByDescending(i=>i.LastReplyDateTime).ToPagedList(pageNumber, 15);
             return View("TicketFilter", model);
         }
     }
