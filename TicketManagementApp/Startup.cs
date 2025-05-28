@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Owin;
 using Microsoft.Owin;
+using Hangfire;
 [assembly: OwinStartup(typeof(TicketManagementApp.Startup))]
 namespace TicketManagementApp
 {
@@ -11,6 +12,12 @@ namespace TicketManagementApp
     {
         public void Configuration(IAppBuilder app)
         {
+            GlobalConfiguration.Configuration.UseSqlServerStorage("TkContext");
+
+            app.UseHangfireServer();
+
+            app.UseHangfireDashboard();
+
             app.MapSignalR();
         }
     }
