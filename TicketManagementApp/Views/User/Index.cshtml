@@ -60,7 +60,7 @@
                     @Html.DisplayFor(modelItem => item.TicketSubject)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)
+                    <label>@*@Html.DisplayFor(modelItem => item.UserGroup.UserGroupTitle)*@ @Html.DisplayFor(modelItem=>item.Account.FullName)</label>
                 </td>
                 <td>
                     @if (item.TicketAttachment != null)
@@ -71,7 +71,18 @@
                         </a>}
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TicketStatus)
+                    @if (item.TicketStatus == "در انتظار بررسی")
+                    {
+                        <span class="bg-success p-2 rounded-5">@Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                    }
+                    @if (item.TicketStatus == "در حال بررسی")
+                    {
+                        <span class="bg-warning p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                    }
+                    @if (item.TicketStatus == "بسته شده")
+                    {
+                        <span class="bg-danger p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                    }
                 </td>
                 <td>
                     @{
