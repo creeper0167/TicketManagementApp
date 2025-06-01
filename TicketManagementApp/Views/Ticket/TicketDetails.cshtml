@@ -61,26 +61,7 @@
             </table>
         </div>
         <!--end table-->
-        @*<div class="row">
 
-
-            <div class="card">
-                <div class="card-header bg-info">
-                    پاسخ های تیکت
-                </div>
-                <div class="card-body">
-                    <p class="card-text">
-                        @foreach (var item in Model.TicketReply.OrderByDescending(i => i.ReplyId).ToList())
-                        {
-                            <span>-</span> @Html.DisplayFor(model => item.Text)
-                            <hr />
-                        }
-                    </p>
-                </div>
-            </div>
-
-
-        </div>*@
         <div class="overflow-auto p-4" style="height:60vh;overflow:auto;">
             
             <div class="container">
@@ -103,7 +84,6 @@
                 @foreach (var item in Model.TicketReply.ToList())
                 {
                     counter++;
-                    //string className = counter % 2 == 0 ? "col-md-7 float-right" : "col-md-7 float-left";
                     string className = item.Accounts.Role.RoleId == Int32.Parse(Session["RoleID"].ToString()) ? "card float-right col-md-7" : "card col-md-7 float-left";
                     <div class="">
 
@@ -194,6 +174,7 @@
 
                             <input class="btn btn-success" type="submit" value="ارسال پاسخ" />
                             @*@Html.ActionLink("پاسخ", "TicketReplyPost", new {id = Model.TicketID}, htmlAttributes: new { @class = "btn btn-success text-white" , @type="submit"})*@
+                            @Html.ActionLink("شروع به اقدام", "ChangeTicketStatus", new { id = Model.TicketID}, htmlAttributes: new { @class = "btn btn-warning"})
                             @Html.ActionLink("بستن تیکت", "CloseTicket", new { id = Model.TicketID }, htmlAttributes: new { @class = "btn btn-danger" })
                             @Html.ActionLink("بازگشت", "TicketView", "TicketView", htmlAttributes: new { @class = "btn btn-danger text-white" })
 
