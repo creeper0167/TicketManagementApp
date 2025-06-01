@@ -238,8 +238,6 @@ namespace TicketManagementApp.Controllers
                 _ticketRepo.UpdateTicket(ticket1);
                 _ticketRepo.Save();
 
-                // Safe background work
-                //BackgroundJob.Schedule(()=> SendReplyToUser(ticket.TicketID), TimeSpan.FromSeconds(30));
 
             }
             try
@@ -309,6 +307,11 @@ namespace TicketManagementApp.Controllers
             //ticket1.TicketReply.Add(reply);
             //_ticketRepo.UpdateTicket(ticket1);
             _ticketReplyRepo.Save();
+            var ticket2 = db.Tickets.Where(i=>i.TicketID == ticketId).FirstOrDefault();
+            ticket2.LastReplyDateTime = DateTime.Now;
+            _ticketRepo.UpdateTicket(ticket2);
+            _ticketReplyRepo.Save();
+
             try
             {
                 var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");

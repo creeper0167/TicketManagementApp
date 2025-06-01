@@ -47,16 +47,16 @@ namespace TicketManagementApp.Controllers
             int departmentId = Int32.Parse(Session["DepartmentId"].ToString());
             ViewBag.UnreadCounterValue = _ticketRepo.GetAllTickets().Where(i => i.TicketStatus == "در انتظار بررسی" && i.DepartmentId == departmentId).Count();
             int pageNumber = (page ?? 1);
-            if (Int32.Parse(Session["UserGroupId"].ToString()) == 1)
-            {
-                var model = _ticketRepo.GetAllTickets().Where(i => i.TicketGroupID == 5).OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 15);
-                return View(model);
-            }
-            else
-            {
+            //if (Int32.Parse(Session["UserGroupId"].ToString()) == 1)
+            //{
+            //    var model = _ticketRepo.GetAllTickets().Where(i => i.TicketGroupID == 5).OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 15);
+            //    return View(model);
+            //}
+            //else
+            //{
                 var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 15);
                 return View(model);
-            }
+            //}
         }
 
         public ActionResult TicketFilter(string filter, int? page)
