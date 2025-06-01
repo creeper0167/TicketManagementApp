@@ -208,6 +208,14 @@ namespace TicketManagementApp.Controllers
             return RedirectToAction("TicketView");
 
         }
+        public ActionResult ChangeTicketStatus(int? id)
+        {
+            Ticket ticket = _ticketRepo.GetTicketById(id.Value);
+            ticket.TicketStatus = "در حال انجام";
+            _ticketRepo.UpdateTicket(ticket);
+            _ticketRepo.Save();
+            return RedirectToAction("TicketView");
+        }
 
         [HttpPost]
         public ActionResult Search(string searchString)
