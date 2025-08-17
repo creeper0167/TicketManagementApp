@@ -54,7 +54,7 @@ namespace TicketManagementApp.Controllers
             //}
             //else
             //{
-                var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 15);
+                var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 100);
                 return View(model);
             //}
         }

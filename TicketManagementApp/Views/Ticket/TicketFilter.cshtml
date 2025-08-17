@@ -132,6 +132,10 @@
                         {
                             <span class="bg-danger p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
                         }
+                        @if (item.TicketStatus == "در حال انجام")
+                        {
+                            <span class="bg-primary p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                        }
                     </td>
 
 

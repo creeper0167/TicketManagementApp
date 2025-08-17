@@ -25,6 +25,7 @@
     </head>*@
 
 <div class="min-vh-100 container-fluid">
+
     @using (Html.BeginForm("Search", "Ticket", FormMethod.Post))
     {
         <div class="container-fluid mb-3">
@@ -38,6 +39,7 @@
             </div>
         </div>
     }
+
     @using (Html.BeginForm("Filter", "Ticket", FormMethod.Post))
     {
         <div class="container-fluid mb-3">
@@ -54,6 +56,9 @@
             </div>
         </div>
     }
+    <div id="pager">
+        @Html.PagedListPager(Model, page => Url.Action("TicketView", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< ابتدا", LinkToPreviousPageFormat = "< صفحه قبلی", LinkToNextPageFormat = "صفحه بعدی>", LinkToLastPageFormat = "آخرین >>" })
+    </div>
     <div class="card">
         <div class="card-header bg-info"><h1 class="text-center">لیست تیکت ها</h1></div>
 
@@ -134,7 +139,7 @@
                         }
                         @if (item.TicketStatus == "در حال انجام")
                         {
-                            <span class="bg-warning p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
+                            <span class="bg-primary p-2"> @Html.DisplayFor(modelItem => item.TicketStatus)</span>
                         }
                     </td>
 
@@ -159,8 +164,5 @@
 
         </table>
     </div>
-    <div id="pager">
-        @*<p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>*@
-        @Html.PagedListPager(Model, page => Url.Action("TicketView", new { page = page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< ابتدا", LinkToPreviousPageFormat = "< صفحه قبلی", LinkToNextPageFormat = "صفحه بعدی>", LinkToLastPageFormat = "آخرین >>" })
-    </div>
+
 </div>
