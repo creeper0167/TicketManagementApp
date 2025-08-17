@@ -226,7 +226,10 @@ namespace TicketManagementApp.Controllers
             }
             int pageNumber = 1;
             ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
-            var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.TicketID).Where(item => string.Compare(item.TicketID.ToString(), searchString) == 0).ToPagedList(pageNumber, 15);
+            var model = _ticketRepo.GetAllTickets()
+                .OrderByDescending(i => i.TicketID)
+                .Where(item => string.Compare(item.TicketID.ToString(), searchString) == 0 || item.TicketSubject.Contains(searchString))
+                .ToPagedList(pageNumber, 100);
             return View("TicketView", model);
         }
 
