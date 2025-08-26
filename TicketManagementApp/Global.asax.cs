@@ -20,6 +20,25 @@ namespace TicketManagementApp
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
+        // <-- Session handling -->
+        //protected void Application_PostAcquireRequestState(object sender, EventArgs e)
+        //{
+        //    var context = HttpContext.Current;
+
+        //    if (context.Session != null && context.Session["AccountID"] == null)
+        //    {
+        //        string[] allowedPaths = new[] { "/login/login", "/login/logout" }; // URLs that don't require session
+        //        var currentPath = context.Request.Path.ToLower();
+
+        //        if (!allowedPaths.Any(p => currentPath.StartsWith(p)) &&
+        //            !currentPath.Contains("content") && !currentPath.Contains("scripts"))
+        //        {
+        //            context.Response.Redirect("~/Login/Login");
+        //        }
+        //    }
+        //}
+
+        //---
         protected void Application_Error()
         {
             var error = Server.GetLastError();

@@ -52,8 +52,23 @@
                         }
                     </select>
                 </div>
-                <div class="col-6"><input type="submit" value="اعمال فیلتر" class="btn btn-success" /></div>
+                <div class="col-2">
+                    <select class="form-control form-select" name="filterStatus">
+                        <option value="همه">همه</option>
+                        <option value="در حال بررسی">در حال بررسی</option>
+                        <option value="بسته شده">بسته شده</option>
+                        <option value="در حال انجام">در حال انجام</option>
+                        <option value="در انتظار بررسی">در انتظار بررسی</option>
+                    </select>
+                </div>
+                <div class="col-2"><input type="submit" value="اعمال فیلتر" class="btn btn-success" /></div>
             </div>
+            @*<div class="col-6"><input type="submit" value="اعمال فیلتر" class="btn btn-success" /></div>*@
+        </div>
+    }
+    @using (Html.BeginForm("FilterByStatus", "Ticket", FormMethod.Get))
+    {
+        <div class="container-fluid mb-3">
         </div>
     }
     <div id="pager">

@@ -19,7 +19,7 @@ using System.Data.Entity;
 
 namespace TicketManagementApp.Controllers
 {
-    public class TicketController : Controller
+    public class TicketController : BaseController
     {
         private TkContext _tkContext;
         private ITicketReplyRepo _ticketReplyRepo;
@@ -54,8 +54,8 @@ namespace TicketManagementApp.Controllers
             //}
             //else
             //{
-                var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 100);
-                return View(model);
+            var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 100);
+            return View(model);
             //}
         }
 
@@ -234,7 +234,7 @@ namespace TicketManagementApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Filter(string filter)
+        public ActionResult Filter(string filter, string filterStatus)
         {
             //if ((filter.IsNullOrWhiteSpace()))
             //{
@@ -243,8 +243,46 @@ namespace TicketManagementApp.Controllers
             ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
             ViewBag.Filter = filter;
             int pageNumber = 1;
-            var model = _ticketRepo.GetTicketsByUserGroupID(Int32.Parse(filter)).OrderByDescending(i=>i.LastReplyDateTime).ToPagedList(pageNumber, 15);
-            return View("TicketFilter", model);
+
+            if (Int32.Parse(filter) == 0 && string.Compare(filterStatus, "همه") == 0)
+            {
+                var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 100);
+                return View("TicketFilter", model);
+            }
+            else
+            {
+                if (string.Compare(filterStatus, "همه") == 0)
+                {
+                    var model = _ticketRepo.GetTicketsByUserGroupID(Int32.Parse(filter)).OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 100);
+                    return View("TicketFilter", model);
+                }
+                else
+                {
+                    var model = _ticketRepo.GetTicketsByUserGroupID(Int32.Parse(filter)).Where(i => string.Compare(filterStatus, i.TicketStatus) == 0).OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 100);
+                    return View("TicketFilter", model);
+                }
+
+            }
+        }
+        [HttpGet]
+        public ActionResult FilterByStatus(string filter)
+        {
+            if (filter == "همه")
+            {
+                ViewBag.TicketGroupID = new SelectList(new TicketGroupService().GetAllTicketGroups(), "TicketGroupID", "TicketGroupTitle");
+                ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
+                int pageNumber = 1;
+                var model = _ticketRepo.GetAllTickets().OrderByDescending(i => i.LastReplyDateTime).ToPagedList(pageNumber, 100);
+                return View("TicketView", model);
+            }
+            else
+            {
+                int pageNumber = 1;
+                ViewBag.UserGroupTitles = _userRepo.GetAllUserGroups().ToList();
+                ViewBag.Filter = filter;
+                var model = _ticketRepo.GetAllTickets().Where(i => i.TicketStatus == filter).ToPagedList(pageNumber, 100);
+                return View("TicketView", model);
+            }
         }
     }
 }

@@ -20,10 +20,11 @@ using TicketManagementApp.Repositories;
 using TicketManagementApp.Repositories.Services;
 using System.Web.Hosting;
 using Hangfire;
+using System.Web.Services.Description;
 
 namespace TicketManagementApp.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private TkContext db = new TkContext();
         private ITicketReplyRepo _ticketReplyRepo = new TicketReplyService();
@@ -79,55 +80,63 @@ namespace TicketManagementApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "TicketID,UserGroupID,TicketGroupID,AccountID,TicketSubject,TicketDescription,TicketAttachment,TicketStatus,TicketDate")] Ticket ticket, HttpPostedFileBase TicketAttachmentUpload, int usergroup, string departmentSelectList)
         {
-            var result = new { isValid = true };
-            var notValidResult = new { isValid = false };
-            int departmentId = string.Compare(departmentSelectList, "softwareDepartment") == 0 ? 1 : 2;
-            if (ModelState.IsValid)
+            try
             {
-
-                ticket.TicketStatus = "در انتظار بررسی";
-                ticket.TicketDate = DateTime.Now;
-                ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
-                ticket.UserGroupID = usergroup;
-                ticket.TrackCode = GenerateTrackingCode();
-                ticket.DepartmentId = departmentId;
-
-                if (TicketAttachmentUpload != null)
+                var result = new { isValid = true };
+                var notValidResult = new { isValid = false };
+                int departmentId = string.Compare(departmentSelectList, "softwareDepartment") == 0 ? 1 : 2;
+                if (ModelState.IsValid)
                 {
-                    ticket.TicketAttachment = Guid.NewGuid() + Path.GetExtension(TicketAttachmentUpload.FileName);
-                    TicketAttachmentUpload.SaveAs(Server.MapPath("/TicketAttachments/" + ticket.TicketAttachment));
+
+                    ticket.TicketStatus = "در انتظار بررسی";
+                    ticket.TicketDate = DateTime.Now;
+                    ticket.AccountID = Int32.Parse(Session["AccountID"].ToString());
+                    ticket.UserGroupID = usergroup;
+                    ticket.TrackCode = GenerateTrackingCode();
+                    ticket.DepartmentId = departmentId;
+
+                    if (TicketAttachmentUpload != null)
+                    {
+                        ticket.TicketAttachment = Guid.NewGuid() + Path.GetExtension(TicketAttachmentUpload.FileName);
+                        TicketAttachmentUpload.SaveAs(Server.MapPath("/TicketAttachments/" + ticket.TicketAttachment));
+                    }
+
+                    db.Tickets.Add(ticket);
+                    db.SaveChanges();
+                    BackgroundJob.Schedule(() => SendReplyToUser(ticket.TicketID), TimeSpan.FromSeconds(30));
+                    try
+                    {
+                        var receptors = new List<string> { "09132451970", "09353880336", "09331283198", "09380457496" };
+
+                        var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
+                        var r = api.Send("20001327", receptors, "تیکت جدیدی از طرف " + Session["FullName"].ToString() + " ثبت شد");
+
+                    }
+                    catch (ApiException ex)
+                    {
+                        // در صورتی که خروجی وب سرویس 200 نباشد این خطارخ می دهد.
+                        return Json(new { isValid = false, message = ex.Message });
+
+                    }
+                    catch (Kavenegar.Exceptions.HttpException ex)
+                    {
+                        // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
+                        return Json(new { isValid = false, message = ex.Message });
+                    }
+                    return Json(result);
                 }
 
-                db.Tickets.Add(ticket);
-                db.SaveChanges();
-                BackgroundJob.Schedule(() => SendReplyToUser(ticket.TicketID), TimeSpan.FromSeconds(30));
-                try
-                {
-                    var receptors = new List<string> { "09132451970", "09353880336", "09331283198", "09380457496" };
+                ViewBag.AccountID = new SelectList(db.Accounts, "AccountID", "Username", ticket.AccountID);
+                ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
+                ViewBag.UserGroupID = new SelectList(db.UserGroups, "UserGroupID", "UserGroupTitle");
 
-                    var api = new KavenegarApi("46537A513461493231475167624E615873464B726D5449554A42364D57777062445A6E35556C71784653383D");
-                    var r = api.Send("20001327", receptors, "تیکت جدیدی از طرف " + Session["FullName"].ToString() + " ثبت شد");
-
-                }
-                catch (ApiException ex)
-                {
-                    // در صورتی که خروجی وب سرویس 200 نباشد این خطارخ می دهد.
-
-                }
-                catch (Kavenegar.Exceptions.HttpException ex)
-                {
-                    // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
-
-                }
-                return RedirectToAction("Index");
+                //return View(ticket);
+                return Json(new { isValid = false, message = "یکی از فیلدهای تیکت وارد نشده است" });
             }
-
-            ViewBag.AccountID = new SelectList(db.Accounts, "AccountID", "Username", ticket.AccountID);
-            ViewBag.TicketGroupID = new SelectList(db.TicketGroups, "TicketGroupID", "TicketGroupTitle", ticket.TicketGroupID);
-            ViewBag.UserGroupID = new SelectList(db.UserGroups, "UserGroupID", "UserGroupTitle");
-
-            //return View(ticket);
-            return Json(notValidResult);
+            catch (Exception ex)
+            {
+                return Json(new { isValid = false, message = ex.Message });
+            }
         }
 
         // GET: User/Edit/5

@@ -3,16 +3,16 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init1 : DbMigration
+    public partial class changingTicketSubject : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.TicketReplies", "TicketReplyAttachment", c => c.String());
+            AlterColumn("dbo.Tickets", "TicketSubject", c => c.String());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.TicketReplies", "TicketReplyAttachment");
+            AlterColumn("dbo.Tickets", "TicketSubject", c => c.String(nullable: false));
         }
     }
 }

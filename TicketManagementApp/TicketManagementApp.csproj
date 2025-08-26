@@ -1084,6 +1084,7 @@
     <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
     <Content Include="Content\sweetalert\docs.css" />
     <Content Include="Content\sweetalert\sweet-alert.css" />
+    <Content Include="Content\sweetalert\sweetalert2%4011.js" />
     <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
@@ -1108,6 +1109,7 @@
     <Compile Include="Areas\Admin\Controllers\TicketsController.cs" />
     <Compile Include="Areas\Users\UsersAreaRegistration.cs" />
     <Compile Include="Context\TkContext.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -1117,21 +1119,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202311281018116_init.cs" />
-    <Compile Include="Migrations\202311281018116_init.designer.cs">
-      <DependentUpon>202311281018116_init.cs</DependentUpon>
+    <Compile Include="Migrations\202508170753556_changeSubject.cs" />
+    <Compile Include="Migrations\202508170753556_changeSubject.Designer.cs">
+      <DependentUpon>202508170753556_changeSubject.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202312030516303_init1.cs" />
-    <Compile Include="Migrations\202312030516303_init1.designer.cs">
-      <DependentUpon>202312030516303_init1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202412150609319_phone.cs" />
-    <Compile Include="Migrations\202412150609319_phone.Designer.cs">
-      <DependentUpon>202412150609319_phone.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504100828531_addLastDateTimeToReply.cs" />
-    <Compile Include="Migrations\202504100828531_addLastDateTimeToReply.Designer.cs">
-      <DependentUpon>202504100828531_addLastDateTimeToReply.cs</DependentUpon>
+    <Compile Include="Migrations\202508190513055_changingTicketSubject.cs" />
+    <Compile Include="Migrations\202508190513055_changingTicketSubject.Designer.cs">
+      <DependentUpon>202508190513055_changingTicketSubject.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accounts.cs" />
@@ -1460,19 +1454,14 @@
     <Folder Include="Areas\Users\Data\" />
     <Folder Include="Areas\Users\Views\Shared\" />
     <Folder Include="TicketAttachments\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202311281018116_init.resx">
-      <DependentUpon>202311281018116_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202508170753556_changeSubject.resx">
+      <DependentUpon>202508170753556_changeSubject.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202312030516303_init1.resx">
-      <DependentUpon>202312030516303_init1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202412150609319_phone.resx">
-      <DependentUpon>202412150609319_phone.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504100828531_addLastDateTimeToReply.resx">
-      <DependentUpon>202504100828531_addLastDateTimeToReply.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202508190513055_changingTicketSubject.resx">
+      <DependentUpon>202508190513055_changingTicketSubject.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

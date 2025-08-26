@@ -7,13 +7,13 @@ namespace TicketManagementApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class init1 : IMigrationMetadata
+    public sealed partial class changeSubject : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(init1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(changeSubject));
         
         string IMigrationMetadata.Id
         {
-            get { return "202312030516303_init1"; }
+            get { return "202508170753556_changeSubject"; }
         }
         
         string IMigrationMetadata.Source

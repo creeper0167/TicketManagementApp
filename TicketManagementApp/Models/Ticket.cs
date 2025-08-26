@@ -14,6 +14,7 @@ namespace TicketManagementApp.Models
         [Display(Name ="واحد")]
         public int? UserGroupID { get; set; }
         [Display(Name ="نوع تیکت")]
+        [Range(1,int.MaxValue,ErrorMessage = "برای نوع تیکت یک گزینه معتبر انتخاب کنید")]
         public int TicketGroupID { get; set; }
         [Display(Name = "کاربر")]
         public int AccountID { get; set; }
